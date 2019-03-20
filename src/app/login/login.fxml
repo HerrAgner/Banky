@@ -14,7 +14,7 @@
         <Label layoutX="93.0" layoutY="94.0" text="Personnummer" />
         <Label layoutX="93.0" layoutY="165.0" text="Lösenord" />
         <Button fx:id="loginButton" layoutX="143.0" layoutY="231.0" mnemonicParsing="false" onAction="#loadUser" text="Logga in" />
-        <Label layoutX="26.0" layoutY="29.0" text="Sweden Bank">
+        <Label layoutX="26.0" layoutY="29.0" text="Banky">
             <font>
                 <Font size="39.0" />
             </font>

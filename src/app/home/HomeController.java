@@ -10,8 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
@@ -31,7 +30,8 @@ public class HomeController {
     BorderPane borderPane;
 
     @FXML
-    void initialize(){
+    void initialize() throws IOException {
+        addMenu();
         // load accounts from db using LoginController.user.getId() and display them
 //        login.loadUser();
         generateAccounts();
@@ -80,5 +80,26 @@ public class HomeController {
             });
             account_box.getChildren().add(accountButton);
         });
+    }
+
+    private void addMenu() throws IOException {
+        Menu m = new Menu("Menu");
+        MenuItem m1 = new MenuItem("Create new transaction");
+        MenuItem m2 = new MenuItem("Create account");
+        MenuItem m3 = new MenuItem("Change account");
+        m.getItems().add(m1);
+        m.getItems().add(m2);
+        m.getItems().add(m3);
+
+        FXMLLoader loader = new FXMLLoader( getClass().getResource( "/app/newTransaction/newTransaction.fxml" ) );
+        Parent fxmlInstance = loader.load();
+        m1.setOnAction(actionEvent -> {
+            borderPane.setCenter(fxmlInstance);
+        });
+
+        MenuBar mb = new MenuBar();
+        mb.getMenus().add(m);
+        VBox vb = new VBox(mb);
+        borderPane.setTop(vb);
     }
 }
