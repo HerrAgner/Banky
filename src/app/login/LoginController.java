@@ -23,8 +23,10 @@ public class LoginController {
         loadUser();
     }
 
-    void loadUser(){
-//        user = DB.getMatchingUser("Kalle", "abc123?");
+    public void loadUser(){
+        user = DB.getMatchingUser("8802122492", "123123");
+        user.generateAccountsOnUser();
+        System.out.println(user.getAccountList());
         // if null display error
         // else switchScene to Home
     }

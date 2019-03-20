@@ -2,19 +2,28 @@ package app.home;
 
 import app.Main;
 import app.account.AccountController;
+import app.login.LoginController;
 import app.transaction.TransactionController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
 public class HomeController {
+    LoginController login = new LoginController();
+
+    @FXML
+    VBox account_box;
 
     @FXML
     void initialize(){
         // load accounts from db using LoginController.user.getId() and display them
+        login.loadUser();
+        generateAccounts();
 
     }
 
@@ -33,6 +42,14 @@ public class HomeController {
 //        Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
         Main.stage.setScene(scene);
         Main.stage.show();
+    }
 
+    @FXML
+    void generateAccounts() {
+        LoginController.getUser().getAccountList().forEach(account -> {
+            Button accountButton = new Button();
+            accountButton.setText(account.toString());
+            account_box.getChildren().add(accountButton);
+        });
     }
 }
