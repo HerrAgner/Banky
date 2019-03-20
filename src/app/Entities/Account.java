@@ -38,6 +38,6 @@ public class Account {
 
     @Override
     public String toString() {
-        return String.format("%s\n%d\nbalance: %.2f\ntype: %s", name , accountNumber, balance,type);
+        return String.format("%s\n%d\nbalance: %.2f\ntype: %s", name , accountNumber, balance, type);
     }
 }

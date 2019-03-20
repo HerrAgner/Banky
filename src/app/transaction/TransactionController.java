@@ -18,7 +18,7 @@ public class TransactionController {
 
     public void setTransaction(Transaction transaction) {
         message.setText(transaction.getMessage());
-        // etc
-        // etc
+        amount.setText(String.format("%.2f",transaction.getAmount()));
+        date.setText(String.format("%s",transaction.getDate()));
     }
 }
