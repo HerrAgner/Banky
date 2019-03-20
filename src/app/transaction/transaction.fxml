@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.transaction.TransactionController">
+<AnchorPane style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.transaction.TransactionController">
    <children>
       <BorderPane>
          <center>
-            <HBox spacing="60.0" BorderPane.alignment="CENTER">
+            <HBox spacing="60.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
                <children>
                   <Label fx:id="message" text="Message" />
                   <Label fx:id="date" text="Date" />

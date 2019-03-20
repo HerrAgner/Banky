@@ -47,7 +47,7 @@ public abstract class DB {
         return returnAccount;
     }
 
-    public static List<?> getTransactions(int account) {
+    public static List<?> getTenTransactions(int account) {
         List<?> transactions = null;
         PreparedStatement ps = prep("SELECT * FROM transactions WHERE account_id = ? OR receiver_id = ? ORDER BY transaction_date_time DESC LIMIT 10");
         try {
@@ -58,6 +58,16 @@ public abstract class DB {
         return transactions;
     }
 
+    public static List<?> getTransactions(int account) {
+        List<?> transactions = null;
+        PreparedStatement ps = prep("SELECT * FROM transactions WHERE account_id = ? OR receiver_id = ? ORDER BY transaction_date_time DESC");
+        try {
+            ps.setInt(1, account);
+            ps.setInt(2, account);
+            transactions = new ObjectMapper<>(Transaction.class).map(ps.executeQuery());
+        } catch (Exception e) { }
+        return transactions;
+    }
     /*
         Example method with default parameters
     public static List<Transaction> getTransactions(int accountId){ return getTransactions(accountId, 0, 10); }

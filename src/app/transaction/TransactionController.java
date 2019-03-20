@@ -20,5 +20,12 @@ public class TransactionController {
         message.setText(transaction.getMessage());
         amount.setText(String.format("%.2f",transaction.getAmount()));
         date.setText(String.format("%s",transaction.getDate()));
+        message.setMaxWidth(300);
+        amount.setMaxWidth(300);
+        date.setMaxWidth(300);
+        message.setMinWidth(50);
+        amount.setMinWidth(50);
+        date.setMinWidth(50);
+
     }
 }
