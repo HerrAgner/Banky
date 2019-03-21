@@ -3,6 +3,7 @@ package app.db;
 import app.Entities.Account;
 import app.Entities.Transaction;
 import app.Entities.User;
+import app.login.LoginController;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
@@ -60,6 +61,32 @@ public abstract class DB {
             stmt.setInt(1, accNumber);
             stmt.setString(2, name);
             stmt.setString(3, type);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void createAccount(int accNumber, String name, String type) {
+        CallableStatement stmt = null;
+        try {
+            stmt = Database.getInstance().getConn().prepareCall("{call create_account(?,?,?,?,?)}");
+            stmt.setInt(1, accNumber);
+            stmt.setString(2, LoginController.getUser().getAccountList().get(0).getOwner());
+            stmt.setDouble(3, 0);
+            stmt.setString(4, type);
+            stmt.setString(5, name);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteAccount(int accNumber) {
+        CallableStatement stmt = null;
+        try {
+            stmt = Database.getInstance().getConn().prepareCall("{call delete_account(?)}");
+            stmt.setInt(1, accNumber);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

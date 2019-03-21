@@ -21,7 +21,7 @@ public class HomeController {
     LoginController login = new LoginController();
 
     @FXML
-    VBox account_box;
+    public VBox account_box;
 
     @FXML
     VBox borderPaneMid;
@@ -45,7 +45,7 @@ public class HomeController {
     }
 
     @FXML
-    void goToAccount(int id) throws IOException {
+    public void goToAccount(int id) throws IOException {
         FXMLLoader loader = new FXMLLoader( getClass().getResource( "/app/account/account.fxml" ) );
         Parent fxmlInstance = loader.load();
         borderPane.setCenter(fxmlInstance);
@@ -107,6 +107,12 @@ public class HomeController {
         Parent fxmlInstance = loader.load();
         m1.setOnAction(actionEvent -> {
             borderPane.setCenter(fxmlInstance);
+        });
+
+        FXMLLoader createAccount = new FXMLLoader( getClass().getResource( "/app/account/createAccount.fxml" ) );
+        Parent createInstance = createAccount.load();
+        m2.setOnAction(actionEvent -> {
+            borderPane.setCenter(createInstance);
         });
 
         FXMLLoader change = new FXMLLoader( getClass().getResource( "/app/updateAccount/updateAccount.fxml" ) );

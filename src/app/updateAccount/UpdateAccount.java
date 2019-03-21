@@ -2,12 +2,17 @@ package app.updateAccount;
 
 import app.Main;
 import app.db.DB;
+import app.db.Database;
 import app.home.HomeController;
 import app.login.LoginController;
+import com.mysql.cj.log.Log;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class UpdateAccount {
     @FXML
@@ -20,7 +25,6 @@ public class UpdateAccount {
     }
 
     private void loadAccounts() {
-
         LoginController.getUser().getAccountList().forEach(account -> {
             ComboBox type = new ComboBox();
             Label type1 = new Label("Saving");
@@ -31,19 +35,28 @@ public class UpdateAccount {
             Label accountName = new Label("Account name: ");
             Label accountType = new Label("Account type: ");
             Button confirm = new Button("Confirm");
+            Button deleteAccount = new Button("Delete account");
+
             TitledPane pane = new TitledPane();
             TextField accName = new TextField();
+            GridPane grid = new GridPane();
+
             confirm.setOnAction(actionEvent -> {
                 Label label = (Label) type.getSelectionModel().getSelectedItem();
                 DB.updateAccount(account.getAccountNumber(), accName.getText(), label.getText());
-
                 Button accountButton = (Button)Main.stage.getScene().lookup("#"+account.getAccountNumber());
                 accountButton.setText(String.format("%s %d %s", accName.getText(), account.getAccountNumber(), label.getText()));
                 pane.setText(String.valueOf(account.getName()));
-
             });
 
-            GridPane grid = new GridPane();
+            deleteAccount.setOnAction(actionEvent -> {
+                DB.deleteAccount(account.getAccountNumber());
+                LoginController.getUser().getAccountList().remove(account);
+                VBox accountBox = (VBox) Main.stage.getScene().lookup("#account_box");
+                accountBox.getChildren().remove(Main.stage.getScene().lookup("#"+account.getAccountNumber()));
+                accordion.getPanes().remove(pane);
+            });
+
             grid.setVgap(4);
             grid.setPadding(new Insets(5, 5, 5, 5));
             grid.add(accountName, 0, 0);
@@ -51,8 +64,10 @@ public class UpdateAccount {
             grid.add(accountType, 0, 1);
             grid.add(type, 1, 1);
             grid.add(confirm, 1, 2);
+            grid.add(deleteAccount, 1, 3);
             pane.setText(account.getName());
             pane.setContent(grid);
+
             accordion.getPanes().add(pane);
         });
     }
