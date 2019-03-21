@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.newTransaction.NewTransaction">
+<HBox fx:id="node" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.newTransaction.NewTransaction">
    <children>
       <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="200.0">
          <children>
@@ -24,6 +24,11 @@
             </Label>
             <Label text="Amount:">
                <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </Label>
+            <Label text="Message:">
+               <VBox.margin>
                   <Insets bottom="60.0" />
                </VBox.margin>
             </Label>
@@ -36,17 +41,22 @@
                   <Insets bottom="20.0" />
                </VBox.margin>
             </ComboBox>
-            <TextField>
+            <TextField fx:id="toAccount">
                <VBox.margin>
                   <Insets bottom="20.0" />
                </VBox.margin>
             </TextField>
-            <TextField>
+            <TextField fx:id="amount">
                <VBox.margin>
                   <Insets bottom="20.0" />
                </VBox.margin>
             </TextField>
-            <Button mnemonicParsing="false" text="Confirm" />
+            <TextField fx:id="messageBox">
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </TextField>
+            <Button fx:id="confirm" mnemonicParsing="false" onAction="#transaction" text="Confirm" />
          </children>
       </VBox>
    </children>

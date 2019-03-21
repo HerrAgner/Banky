@@ -46,7 +46,6 @@ public class HomeController {
 
     @FXML
     void goToAccount(int id) throws IOException {
-
         FXMLLoader loader = new FXMLLoader( getClass().getResource( "/app/account/account.fxml" ) );
         Parent fxmlInstance = loader.load();
         borderPane.setCenter(fxmlInstance);
@@ -82,6 +81,18 @@ public class HomeController {
         });
     }
 
+    void switchScene(String pathname) {
+        try {
+            FXMLLoader loader = new FXMLLoader( getClass().getResource( pathname) );
+            Parent fxmlInstance = loader.load();
+            borderPane.setCenter(fxmlInstance);
+
+            Main.stage.show();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
     private void addMenu() throws IOException {
         Menu m = new Menu("Menu");
         MenuItem m1 = new MenuItem("Create new transaction");
@@ -102,4 +113,5 @@ public class HomeController {
         VBox vb = new VBox(mb);
         borderPane.setTop(vb);
     }
+
 }

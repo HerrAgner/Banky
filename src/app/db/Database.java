@@ -1,9 +1,6 @@
 package app.db;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashMap;
 
 public class Database {
@@ -26,6 +23,10 @@ public class Database {
             catch (SQLException e) { e.printStackTrace(); }
         }
         return ps;
+    }
+
+    public Connection getConn() {
+        return conn;
     }
 
     private void connectToDb(){

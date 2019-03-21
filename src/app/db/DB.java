@@ -4,26 +4,30 @@ import app.Entities.Account;
 import app.Entities.Transaction;
 import app.Entities.User;
 
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-/** A Helper class for interacting with the Database using short-commands */
+/**
+ * A Helper class for interacting with the Database using short-commands
+ */
 public abstract class DB {
 
-    public static PreparedStatement prep(String SQLQuery){
+    public static PreparedStatement prep(String SQLQuery) {
         return Database.getInstance().prepareStatement(SQLQuery);
     }
 
-    public static User getMatchingUser(String username, String password){
+    public static User getMatchingUser(String username, String password) {
         User result = null;
         PreparedStatement ps = prep("SELECT * FROM persons WHERE person_id = ? AND password = ?");
         try {
             ps.setString(1, username);
             ps.setString(2, password);
-            result = (User)new ObjectMapper<>(User.class).mapOne(ps.executeQuery());
+            result = (User) new ObjectMapper<>(User.class).mapOne(ps.executeQuery());
             System.out.println(result);
-        } catch (Exception e) { }
+        } catch (Exception e) {
+        }
         return result; // return User;
     }
 
@@ -33,7 +37,8 @@ public abstract class DB {
         try {
             ps.setString(1, owner);
             accounts = new ObjectMapper<>(Account.class).map(ps.executeQuery());
-        } catch (Exception e) { }
+        } catch (Exception e) {
+        }
         return accounts;
     }
 
@@ -43,7 +48,8 @@ public abstract class DB {
         try {
             ps.setLong(1, account);
             returnAccount = (Account) new ObjectMapper<>(Account.class).mapOne(ps.executeQuery());
-        } catch (Exception e) { }
+        } catch (Exception e) {
+        }
         return returnAccount;
     }
 
@@ -54,7 +60,8 @@ public abstract class DB {
             ps.setInt(1, account);
             ps.setInt(2, account);
             transactions = new ObjectMapper<>(Transaction.class).map(ps.executeQuery());
-        } catch (Exception e) { }
+        } catch (Exception e) {
+        }
         return transactions;
     }
 
@@ -65,9 +72,29 @@ public abstract class DB {
             ps.setInt(1, account);
             ps.setInt(2, account);
             transactions = new ObjectMapper<>(Transaction.class).map(ps.executeQuery());
-        } catch (Exception e) { }
+        } catch (Exception e) {
+        }
         return transactions;
     }
+
+    public static void newTransaction(int from, int to, float amount, String message) throws SQLException {
+        CallableStatement stmt = null;
+        stmt = Database.getInstance().getConn().prepareCall("{call transaction(?,?,?,?,?)}");
+        stmt.setString(1, "transaction");
+        stmt.setFloat(2, amount);
+        stmt.setInt(3, from);
+        stmt.setInt(4, to);
+        stmt.setString(5, message);
+
+        //register the OUT parameter before calling the stored procedure
+
+        stmt.executeUpdate();
+
+        //read the OUT parameter now
+
+        System.out.println("Employee Record Save Success::");
+    }
+}
     /*
         Example method with default parameters
     public static List<Transaction> getTransactions(int accountId){ return getTransactions(accountId, 0, 10); }
@@ -83,4 +110,3 @@ public abstract class DB {
     */
 
 
-}
