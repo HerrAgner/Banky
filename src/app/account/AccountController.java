@@ -35,12 +35,11 @@ public class AccountController {
     }
 
     void loadMoreTransactions(int accnumber) {
-            transactions = (List<Transaction>) DB.getTenTransactions(accnumber);
+            transactions = (List<Transaction>) DB.getTransactions(accnumber, 0, 10);
             displayTransaction(transactions);
     }
 
     void displayTransaction(List<Transaction> transactions) {
-        // For every transaction, do the following:
         transactionBox.getChildren().clear();
         transactions.forEach(transaction -> {
             try {
@@ -69,7 +68,7 @@ public class AccountController {
 
     @FXML
     void loadAll(Event e) {
-        transactions = (List<Transaction>) DB.getTransactions(account.getAccountNumber());
+        transactions = (List<Transaction>) DB.getTransactions(account.getAccountNumber(),0, Integer.MAX_VALUE);
         displayTransaction(transactions);
     }
 }

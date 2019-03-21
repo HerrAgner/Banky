@@ -53,28 +53,17 @@ public abstract class DB {
         return returnAccount;
     }
 
-    public static List<?> getTenTransactions(int account) {
-        List<?> transactions = null;
-        PreparedStatement ps = prep("SELECT * FROM transactions WHERE account_id = ? OR receiver_id = ? ORDER BY transaction_date_time DESC LIMIT 10");
+    public static void updateAccount(int accNumber, String name, String type) {
+        CallableStatement stmt = null;
         try {
-            ps.setInt(1, account);
-            ps.setInt(2, account);
-            transactions = new ObjectMapper<>(Transaction.class).map(ps.executeQuery());
-        } catch (Exception e) {
+            stmt = Database.getInstance().getConn().prepareCall("{call update_account(?,?,?)}");
+            stmt.setInt(1, accNumber);
+            stmt.setString(2, name);
+            stmt.setString(3, type);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return transactions;
-    }
-
-    public static List<?> getTransactions(int account) {
-        List<?> transactions = null;
-        PreparedStatement ps = prep("SELECT * FROM transactions WHERE account_id = ? OR receiver_id = ? ORDER BY transaction_date_time DESC");
-        try {
-            ps.setInt(1, account);
-            ps.setInt(2, account);
-            transactions = new ObjectMapper<>(Transaction.class).map(ps.executeQuery());
-        } catch (Exception e) {
-        }
-        return transactions;
     }
 
     public static void newTransaction(int from, int to, float amount, String message) throws SQLException {
@@ -86,27 +75,31 @@ public abstract class DB {
         stmt.setInt(4, to);
         stmt.setString(5, message);
 
-        //register the OUT parameter before calling the stored procedure
-
         stmt.executeUpdate();
-
-        //read the OUT parameter now
-
-        System.out.println("Employee Record Save Success::");
     }
-}
-    /*
-        Example method with default parameters
-    public static List<Transaction> getTransactions(int accountId){ return getTransactions(accountId, 0, 10); }
-    public static List<Transaction> getTransactions(int accountId, int offset){ return getTransactions(accountId, offset, offset + 10); }
-    public static List<Transaction> getTransactions(int accountId, int offset, int limit){
-        List<Transaction> result = null;
-        PreparedStatement ps = prep("bla bla from transactions WHERE account-id = "+accountId+" OFFSET "+offset+" LIMIT "+limit);
+
+    //        Example method with default parameters
+    public static List<?> getTransactions(int accountId) {
+        return getTransactions(accountId, 0, 10);
+    }
+
+    public static List<?> getTransactions(int accountId, int offset) {
+        return getTransactions(accountId, offset, offset + 10);
+    }
+
+    public static List<?> getTransactions(int accountId, int offset, int limit) {
+        List<?> result = null;
+        PreparedStatement ps = prep("SELECT * FROM transactions WHERE account_id = ? OR receiver_id = ? ORDER BY transaction_date_time DESC LIMIT " + limit + " OFFSET " + offset);
         try {
-            result = (List<Transaction>)new ObjectMapper<>(Transaction.class).map(ps.executeQuery());
-        } catch (Exception e) { e.printStackTrace(); }
+            ps.setInt(1, accountId);
+            ps.setInt(2, accountId);
+            result = new ObjectMapper<>(Transaction.class).map(ps.executeQuery());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return result; // return User;
     }
-    */
+}
+
 
 

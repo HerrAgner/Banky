@@ -62,7 +62,8 @@ public class HomeController {
     }
 
     @FXML
-    void generateAccounts() {
+    public void generateAccounts() {
+        account_box.getChildren().clear();
         LoginController.getUser().getAccountList().forEach(account -> {
             Button accountButton = new Button();
             String id = String.valueOf(account.getAccountNumber());
@@ -107,6 +108,10 @@ public class HomeController {
         m1.setOnAction(actionEvent -> {
             borderPane.setCenter(fxmlInstance);
         });
+
+        FXMLLoader change = new FXMLLoader( getClass().getResource( "/app/updateAccount/updateAccount.fxml" ) );
+        Parent changeInstance = change.load();
+        m3.setOnAction(actionEvent -> borderPane.setCenter(changeInstance));
 
         MenuBar mb = new MenuBar();
         mb.getMenus().add(m);

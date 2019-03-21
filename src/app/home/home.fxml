@@ -3,12 +3,12 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="785.0" prefWidth="1131.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.home.HomeController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="785.0" prefWidth="1131.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.home.HomeController">
    <left>
-      <VBox fx:id="account_box" prefHeight="800.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <VBox fx:id="account_box" prefHeight="800.0" BorderPane.alignment="CENTER" />
    </left>
    <center>
-      <VBox fx:id="borderPaneMid" prefHeight="800.0" prefWidth="600.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER" />
+      <VBox fx:id="borderPaneMid" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER" />
    </center>
    <top>
 
