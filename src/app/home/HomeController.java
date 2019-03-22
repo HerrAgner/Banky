@@ -1,22 +1,16 @@
 package app.home;
 
-import app.Entities.Transaction;
 import app.Main;
 import app.account.AccountController;
-import app.db.DB;
 import app.login.LoginController;
-import app.newTransaction.NewTransaction;
-import app.transaction.TransactionController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.util.List;
 
 public class HomeController {
     LoginController login = new LoginController();
@@ -104,7 +98,7 @@ public class HomeController {
         m.getItems().add(m2);
         m.getItems().add(m3);
 
-        FXMLLoader loader = new FXMLLoader( getClass().getResource( "/app/newTransaction/newTransaction.fxml" ) );
+        FXMLLoader loader = new FXMLLoader( getClass().getResource("/app/transaction/newTransaction/newTransaction.fxml") );
         Parent fxmlInstance = loader.load();
         m1.setOnAction(actionEvent -> {
             borderPane.setCenter(fxmlInstance);
@@ -116,7 +110,7 @@ public class HomeController {
             borderPane.setCenter(createInstance);
         });
 
-        FXMLLoader change = new FXMLLoader( getClass().getResource( "/app/updateAccount/updateAccount.fxml" ) );
+        FXMLLoader change = new FXMLLoader( getClass().getResource("/app/account/updateAccount/updateAccount.fxml") );
         Parent changeInstance = change.load();
         m3.setOnAction(actionEvent -> borderPane.setCenter(changeInstance));
 

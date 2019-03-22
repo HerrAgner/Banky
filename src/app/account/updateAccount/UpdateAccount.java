@@ -1,18 +1,13 @@
-package app.updateAccount;
+package app.account.updateAccount;
 
 import app.Main;
 import app.db.DB;
-import app.db.Database;
-import app.home.HomeController;
 import app.login.LoginController;
-import com.mysql.cj.log.Log;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class UpdateAccount {
     @FXML

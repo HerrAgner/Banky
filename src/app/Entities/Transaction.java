@@ -27,6 +27,14 @@ public class Transaction {
         return date;
     }
 
+    public int getAccount_id() {
+        return account_id;
+    }
+
+    public int getReceiver() {
+        return receiver;
+    }
+
     @Override
     public String toString() {
         return String.format("date: %s\nid %d, Amount: %.2f, from: %d, to: %d message: %s\n",date, id, amount, account_id, receiver, message);

@@ -48,7 +48,7 @@ public class AccountController {
                 Scene scene = new Scene(fxmlInstance);
 
                 TransactionController controller = loader.getController();
-                controller.setTransaction(transaction);
+                controller.setTransaction(transaction, account.getAccountNumber());
 
                 transactionBox.getChildren().add(scene.getRoot());
             } catch (IOException e) {

@@ -105,7 +105,6 @@ public abstract class DB {
         stmt.executeUpdate();
     }
 
-    //        Example method with default parameters
     public static List<?> getTransactions(int accountId) {
         return getTransactions(accountId, 0, 10);
     }
@@ -124,7 +123,7 @@ public abstract class DB {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result; // return User;
+        return result;
     }
 }
 

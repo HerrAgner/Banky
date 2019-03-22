@@ -2,6 +2,7 @@ package app.transaction;
 
 
 import app.Entities.Transaction;
+import app.login.LoginController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -16,9 +17,13 @@ public class TransactionController {
         System.out.println("initialize transaction");
     }
 
-    public void setTransaction(Transaction transaction) {
+    public void setTransaction(Transaction transaction, int from) {
         message.setText(transaction.getMessage());
-        amount.setText(String.format("%.2f",transaction.getAmount()));
+        if (transaction.getAccount_id() == from) {
+            amount.setText(String.format("-%.2f",transaction.getAmount()));
+        } else {
+            amount.setText(String.format("+%.2f",transaction.getAmount()));
+        }
         date.setText(String.format("%s",transaction.getDate()));
         message.setMaxWidth(300);
         amount.setMaxWidth(300);
