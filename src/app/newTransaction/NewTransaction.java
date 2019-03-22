@@ -6,6 +6,8 @@ import app.db.DB;
 import app.home.HomeController;
 import app.login.LoginController;
 import javafx.application.Platform;
+import javafx.beans.property.ListProperty;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -36,11 +38,11 @@ public class NewTransaction {
 
     @FXML
     void initialize() {
-        comboBox.getItems().removeAll(comboBox.getItems());
-        LoginController.getUser().getAccountList().forEach(account -> {
-            comboBox.getItems().add(account.getAccountNumber());
-        });
-        comboBox.getSelectionModel().selectFirst();
+        load();
+    }
+
+    public void load() {
+        fillAccountBox();
     }
 
     @FXML
@@ -57,7 +59,15 @@ public class NewTransaction {
             }
             clearFields();
         });
+    }
 
+    @FXML
+    void fillAccountBox() {
+        comboBox.getItems().removeAll(comboBox.getItems());
+        LoginController.getUser().getAccountList().forEach(account -> {
+            comboBox.getItems().add(account.getAccountNumber());
+        });
+        comboBox.getSelectionModel().selectFirst();
     }
 
     private void clearFields() {

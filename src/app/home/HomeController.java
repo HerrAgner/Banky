@@ -5,6 +5,7 @@ import app.Main;
 import app.account.AccountController;
 import app.db.DB;
 import app.login.LoginController;
+import app.newTransaction.NewTransaction;
 import app.transaction.TransactionController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -22,6 +22,7 @@ public class UpdateAccount {
     @FXML
     void initialize() {
         loadAccounts();
+        LoginController.getUser().generateAccountsOnUser();
     }
 
     private void loadAccounts() {

@@ -1,5 +1,6 @@
 package app.account;
 
+import app.Entities.Account;
 import app.Main;
 import app.db.DB;
 import app.home.HomeController;
@@ -58,7 +59,6 @@ public class createAccount {
 
             accountButton.setOnAction(actionEvent2 -> {
                 try {
-//                    new HomeController().goToAccount(Integer.parseInt(accNumber.getText()));
                     FXMLLoader loader = new FXMLLoader( getClass().getResource( "/app/account/account.fxml" ) );
                     Parent fxmlInstance = loader.load();
                     borderPane.setCenter(fxmlInstance);
@@ -67,9 +67,9 @@ public class createAccount {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-//                asd.clickLoadTransactions(actionEvent, account.getAccountNumber());
             });
             accountBox.getChildren().add(accountButton);
+//            LoginController.getUser().getAccountList().add(new Account());
         });
 
         grid.setVgap(4);
