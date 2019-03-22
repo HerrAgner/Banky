@@ -14,6 +14,7 @@
                   <Label fx:id="message" text="Message" />
                   <Label fx:id="date" text="Date" />
                   <Label fx:id="amount" text="Amount" />
+                  <Label fx:id="from" text="From" />
                </children>
             </HBox>
          </center></BorderPane>

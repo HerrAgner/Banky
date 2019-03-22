@@ -11,6 +11,7 @@ public class TransactionController {
     @FXML Label message;
     @FXML Label amount;
     @FXML Label date;
+    @FXML Label from;
 
     @FXML
     private void initialize(){
@@ -25,6 +26,7 @@ public class TransactionController {
             amount.setText(String.format("+%.2f",transaction.getAmount()));
         }
         date.setText(String.format("%s",transaction.getDate()));
+        this.from.setText(String.valueOf(transaction.getReceiver()));
         message.setMaxWidth(300);
         amount.setMaxWidth(300);
         date.setMaxWidth(300);

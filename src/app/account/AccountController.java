@@ -14,7 +14,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.util.List;
@@ -41,6 +43,7 @@ public class AccountController {
 
     void displayTransaction(List<Transaction> transactions) {
         transactionBox.getChildren().clear();
+        transactionBox.getChildren().add(accountBalance());
         transactions.forEach(transaction -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/transaction/transaction.fxml"));
@@ -55,6 +58,23 @@ public class AccountController {
                 e.printStackTrace();
             }
         });
+    }
+
+    HBox accountBalance() {
+        HBox balanceBox = new HBox();
+        Label text = new Label("Account balance: ");
+        Label balance = new Label(String.valueOf(account.getBalance()));
+
+        text.setMaxWidth(300);
+        text.setMinWidth(50);
+        balance.setMaxWidth(300);
+       balance.setMinWidth(50);
+       text.setFont(new Font(30));
+        balance.setFont(new Font(30));
+
+
+        balanceBox.getChildren().addAll(text, balance);
+        return balanceBox;
     }
 
     public void setAccount(int accountNumber) {
