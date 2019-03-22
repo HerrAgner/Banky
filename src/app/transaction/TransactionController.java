@@ -27,12 +27,12 @@ public class TransactionController {
         }
         date.setText(String.format("%s",transaction.getDate()));
         this.from.setText(String.valueOf(transaction.getReceiver()));
-        message.setMaxWidth(300);
-        amount.setMaxWidth(300);
-        date.setMaxWidth(300);
-        message.setMinWidth(50);
-        amount.setMinWidth(50);
-        date.setMinWidth(50);
+        message.setMaxWidth(80);
+        amount.setMaxWidth(80);
+        date.setMaxWidth(80);
+        message.setMinWidth(80);
+        amount.setMinWidth(80);
+        date.setMinWidth(140);
 
     }
 }

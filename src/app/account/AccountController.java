@@ -5,6 +5,7 @@ import app.Entities.Account;
 import app.Entities.Transaction;
 import app.db.DB;
 import app.home.HomeController;
+import app.login.LoginController;
 import app.transaction.TransactionController;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -33,6 +34,9 @@ public class AccountController {
     @FXML
     private void initialize() {
         System.out.println("initialize account");
+        if (this.account == null) {
+            account = LoginController.getUser().getAccountList().get(0);
+        }
         Platform.runLater(() -> loadMoreTransactions(account.getAccountNumber()));
     }
 

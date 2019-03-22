@@ -4,10 +4,16 @@ import app.db.DB;
 import app.login.LoginController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -48,6 +54,14 @@ public class NewTransaction {
                 e.printStackTrace();
             }
             clearFields();
+            BorderPane qwe = (BorderPane) this.node.getParent();
+            FXMLLoader loader = new FXMLLoader( getClass().getResource( "/app/account/account.fxml" ) );
+            try {
+                Parent fxmlInstance = loader.load();
+                qwe.setCenter(fxmlInstance);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 

@@ -15,7 +15,7 @@ public class Main extends Application {
         // First FXML that should be displayed is the Login
         // after successful login you should get transferred to Home
         Parent root = FXMLLoader.load(getClass().getResource("/app/login/login.fxml"));
-        primaryStage.setTitle("Bank app");
+        primaryStage.setTitle("Banky");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
