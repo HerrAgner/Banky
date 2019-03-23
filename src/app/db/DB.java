@@ -8,6 +8,8 @@ import app.login.LoginController;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -95,14 +97,30 @@ public abstract class DB {
 
     public static void newTransaction(int from, int to, float amount, String message) throws SQLException {
         CallableStatement stmt = null;
-        stmt = Database.getInstance().getConn().prepareCall("{call transaction(?,?,?,?,?)}");
+        stmt = Database.getInstance().getConn().prepareCall("{call transaction(?,?,?,?,?,?)}");
         stmt.setString(1, "transaction");
         stmt.setFloat(2, amount);
         stmt.setInt(3, from);
         stmt.setInt(4, to);
         stmt.setString(5, message);
-
         stmt.executeUpdate();
+    }
+
+    public static void scheduledTransaction(String name, String schedule, int from, int to, float amount, String message) {
+        String eventname = name;
+        String schdl = schedule;
+        try {
+//            PreparedStatement stm = Database.getInstance().getConn().prepareStatement("CREATE EVENT dfgh ON SCHEDULE EVERY 1 MONTH DO UPDATE accounts SET account_name = yolsdo WHERE account_number = 321321321;");
+            PreparedStatement stmt = Database.getInstance().getConn().prepareStatement("CREATE EVENT "+eventname+" ON SCHEDULE "+schdl+" DO CALL transaction(?,?,?,?,?);");
+            stmt.setString(1, eventname);
+            stmt.setFloat(2, amount);
+            stmt.setInt(3, from);
+            stmt.setInt(4, to);
+            stmt.setString(5, message);
+            stmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static List<?> getTransactions(int accountId) {

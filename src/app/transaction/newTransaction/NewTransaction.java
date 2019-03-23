@@ -8,15 +8,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class NewTransaction {
     @FXML
@@ -30,7 +35,13 @@ public class NewTransaction {
     @FXML
     TextField messageBox;
     @FXML
-    HBox node;
+    DatePicker datepicker;
+    @FXML
+    ComboBox dateBoxNumber;
+    @FXML
+    ComboBox dateBoxOccurrence;
+    @FXML
+    Label result;
 
     @FXML
     void initialize() {
@@ -39,30 +50,72 @@ public class NewTransaction {
 
     public void load() {
         fillAccountBox();
+        fillDateBox();
     }
+
 
     @FXML
     void transaction() throws IOException {
         Platform.runLater(() -> {
-            try {
-                DB.newTransaction(
-                        Integer.parseInt(comboBox.getSelectionModel().getSelectedItem().toString()),
-                        Integer.parseInt(toAccount.getText()),
-                        Float.parseFloat(amount.getText()),
-                        messageBox.getText());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+//            "AT \""+Timestamp.valueOf(datepicker.getValue().atTime(LocalTime.from(LocalDateTime.now().plusMinutes(1))))+"\""
+//            try {
+//                DB.newTransaction(
+//                        Integer.parseInt(comboBox.getSelectionModel().getSelectedItem().toString()),
+//                        Integer.parseInt(toAccount.getText()),
+//                        Float.parseFloat(amount.getText()),
+//                        messageBox.getText());
+            DB.scheduledTransaction(transactionType(),
+                    convertBoxToTime(),
+                    Integer.parseInt(comboBox.getSelectionModel().getSelectedItem().toString()),
+                    convertAccountNumber(),
+                    Float.parseFloat(amount.getText()),
+                    messageBox.getText());
+            result.setText("NEW TRANSACTION MADE \n" +
+                    "From account: " + comboBox.getSelectionModel().getSelectedItem().toString() +
+                    "\nTo account: " + toAccount.getText() +
+                    "\nwith amount: " + amount.getText() +
+                    "\nwith message: " + messageBox.getText() +
+                    "\n"+ convertBoxToTime());
             clearFields();
-            BorderPane qwe = (BorderPane) this.node.getParent();
-            FXMLLoader loader = new FXMLLoader( getClass().getResource( "/app/account/account.fxml" ) );
-            try {
-                Parent fxmlInstance = loader.load();
-                qwe.setCenter(fxmlInstance);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         });
+    }
+
+    private String transactionType() {
+        String accNumber = toAccount.getText();
+        Pattern pg = Pattern.compile("^(\\d{3,4}-\\d{4})");
+        Pattern bg = Pattern.compile("^(\\d{5,7}-\\d)");
+        if (pg.matcher(accNumber).matches()) {
+            System.out.println("pg");
+            return "PG";
+        } else if (bg.matcher(accNumber).matches()) {
+            System.out.println("bg");
+            return "BG";
+        }
+        return "Transaction";
+    }
+
+    private int convertAccountNumber() {
+        String accNumber = toAccount.getText().replaceAll("\\D","");
+        return Integer.parseInt(accNumber);
+    }
+
+    private String convertBoxToTime() {
+        String when = null;
+        String time = null;
+        String date = "STARTS '" + Timestamp.valueOf(datepicker.getValue().atStartOfDay()) + "'";
+
+        if (dateBoxNumber.getSelectionModel().getSelectedItem().equals("now") && dateBoxOccurrence.getSelectionModel().getSelectedItem().equals("now")) {
+            when = "AT ";
+            time = "CURRENT_TIMESTAMP";
+            return when + " " + time;
+        } else if (dateBoxNumber.getSelectionModel().getSelectedItem().equals("now") && !dateBoxOccurrence.getSelectionModel().getSelectedItem().equals("now")) {
+            when = "EVERY " + dateBoxNumber.getSelectionModel().getSelectedItem().toString();
+            time = "day";
+        } else {
+            when = "EVERY " + dateBoxNumber.getSelectionModel().getSelectedItem().toString();
+            time = dateBoxOccurrence.getSelectionModel().getSelectedItem().toString();
+        }
+        return when + " " + time + " " + date;
     }
 
     @FXML
@@ -74,10 +127,25 @@ public class NewTransaction {
         comboBox.getSelectionModel().selectFirst();
     }
 
+    @FXML
+    void fillDateBox() {
+        dateBoxOccurrence.getItems().addAll("now", "day", "week", "month", "year");
+        dateBoxNumber.getItems().add("now");
+        for (int i = 1; i <= 31; i++) {
+            dateBoxNumber.getItems().add(i);
+        }
+        dateBoxNumber.getSelectionModel().selectFirst();
+        dateBoxOccurrence.getSelectionModel().selectFirst();
+        datepicker.setValue(LocalDate.now());
+    }
+
     private void clearFields() {
         toAccount.clear();
         amount.clear();
         messageBox.clear();
-        comboBox.getSelectionModel().clearSelection();
+        dateBoxNumber.getSelectionModel().selectFirst();
+        dateBoxOccurrence.getSelectionModel().selectFirst();
     }
+
+
 }

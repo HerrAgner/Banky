@@ -2,6 +2,7 @@ package app.home;
 
 import app.Main;
 import app.account.AccountController;
+import app.db.DB;
 import app.login.LoginController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
