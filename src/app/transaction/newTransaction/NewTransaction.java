@@ -42,6 +42,8 @@ public class NewTransaction {
     ComboBox dateBoxOccurrence;
     @FXML
     Label result;
+    @FXML
+    CheckBox autogiroCheckBox;
 
     @FXML
     void initialize() {
@@ -51,6 +53,8 @@ public class NewTransaction {
     public void load() {
         fillAccountBox();
         fillDateBox();
+        toggleAutogiro();
+        addTextLimiter(amount);
     }
 
 
@@ -75,7 +79,7 @@ public class NewTransaction {
                     "\nTo account: " + toAccount.getText() +
                     "\nwith amount: " + amount.getText() +
                     "\nwith message: " + messageBox.getText() +
-                    "\n"+ datepicker.getValue());
+                    "\n" + datepicker.getValue());
             clearFields();
         });
     }
@@ -98,21 +102,20 @@ public class NewTransaction {
     }
 
     private int convertAccountNumber() {
-        String accNumber = toAccount.getText().replaceAll("\\D","");
+        String accNumber = toAccount.getText().replaceAll("\\D", "");
         return Integer.parseInt(accNumber);
     }
 
     private String convertBoxToTime() {
-        String when = null;
-        String time = null;
+        String when;
+        String time;
         String date = "STARTS '" + Timestamp.valueOf(datepicker.getValue().atStartOfDay()) + "'";
 
-        if (dateBoxNumber.getSelectionModel().isSelected(0) && dateBoxOccurrence.getSelectionModel().isSelected(0)) {
+        if (dateBoxNumber.getSelectionModel().getSelectedItem() == null && dateBoxOccurrence.getSelectionModel().getSelectedItem() == null) {
             when = "AT ";
             time = "CURRENT_TIMESTAMP";
-            System.out.println("yo");
             return when + " " + time;
-        } else if (dateBoxNumber.getSelectionModel().isSelected(0) && !dateBoxOccurrence.getSelectionModel().isSelected(0)) {
+        } else if (dateBoxNumber.getSelectionModel().getSelectedItem() == null && dateBoxOccurrence.getSelectionModel().getSelectedItem() != null) {
             when = "EVERY " + dateBoxNumber.getSelectionModel().getSelectedItem().toString();
             time = "day";
         } else {
@@ -133,14 +136,42 @@ public class NewTransaction {
 
     @FXML
     void fillDateBox() {
-        dateBoxOccurrence.getItems().addAll("once", "day", "week", "month", "year");
-        dateBoxNumber.getItems().add("once");
+        dateBoxOccurrence.getItems().addAll("day", "week", "month", "year");
         for (int i = 1; i <= 31; i++) {
             dateBoxNumber.getItems().add(i);
         }
-        dateBoxNumber.getSelectionModel().selectFirst();
-        dateBoxOccurrence.getSelectionModel().selectFirst();
+        dateBoxNumber.setDisable(true);
+        dateBoxOccurrence.setDisable(true);
         datepicker.setValue(LocalDate.now());
+    }
+
+    private void toggleAutogiro() {
+        autogiroCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            autogiroCheckBox.setSelected(newValue);
+            Platform.runLater(() -> {
+                if (autogiroCheckBox.isSelected()) {
+                    dateBoxNumber.setDisable(false);
+                    dateBoxOccurrence.setDisable(false);
+                    dateBoxNumber.getSelectionModel().selectFirst();
+                    dateBoxOccurrence.getSelectionModel().selectFirst();
+
+                } else {
+                    dateBoxNumber.setDisable(true);
+                    dateBoxOccurrence.setDisable(true);
+                    dateBoxNumber.getSelectionModel().clearSelection();
+                    dateBoxOccurrence.getSelectionModel().clearSelection();
+                }
+            });
+        });
+    }
+
+    private void addTextLimiter(final TextField tf) {
+        tf.textProperty().addListener((ov, oldValue, newValue) -> {
+            String text;
+            text = newValue.replaceAll("[^\\d ]", "").replaceAll("[ ]{2,}", " ");
+//            text = text.replace("  "," ");
+            tf.setText(text);
+        });
     }
 
     private void clearFields() {
