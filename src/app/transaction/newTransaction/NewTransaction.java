@@ -75,7 +75,7 @@ public class NewTransaction {
                     "\nTo account: " + toAccount.getText() +
                     "\nwith amount: " + amount.getText() +
                     "\nwith message: " + messageBox.getText() +
-                    "\n"+ convertBoxToTime());
+                    "\n"+ datepicker.getValue());
             clearFields();
         });
     }
@@ -90,8 +90,11 @@ public class NewTransaction {
         } else if (bg.matcher(accNumber).matches()) {
             System.out.println("bg");
             return "BG";
+        } else if (!dateBoxNumber.getSelectionModel().getSelectedItem().equals("now") && !dateBoxOccurrence.getSelectionModel().getSelectedItem().equals("now")) {
+            return "Autogiro";
+        } else {
+            return "Transaction";
         }
-        return "Transaction";
     }
 
     private int convertAccountNumber() {
@@ -104,11 +107,12 @@ public class NewTransaction {
         String time = null;
         String date = "STARTS '" + Timestamp.valueOf(datepicker.getValue().atStartOfDay()) + "'";
 
-        if (dateBoxNumber.getSelectionModel().getSelectedItem().equals("now") && dateBoxOccurrence.getSelectionModel().getSelectedItem().equals("now")) {
+        if (dateBoxNumber.getSelectionModel().isSelected(0) && dateBoxOccurrence.getSelectionModel().isSelected(0)) {
             when = "AT ";
             time = "CURRENT_TIMESTAMP";
+            System.out.println("yo");
             return when + " " + time;
-        } else if (dateBoxNumber.getSelectionModel().getSelectedItem().equals("now") && !dateBoxOccurrence.getSelectionModel().getSelectedItem().equals("now")) {
+        } else if (dateBoxNumber.getSelectionModel().isSelected(0) && !dateBoxOccurrence.getSelectionModel().isSelected(0)) {
             when = "EVERY " + dateBoxNumber.getSelectionModel().getSelectedItem().toString();
             time = "day";
         } else {
@@ -129,8 +133,8 @@ public class NewTransaction {
 
     @FXML
     void fillDateBox() {
-        dateBoxOccurrence.getItems().addAll("now", "day", "week", "month", "year");
-        dateBoxNumber.getItems().add("now");
+        dateBoxOccurrence.getItems().addAll("once", "day", "week", "month", "year");
+        dateBoxNumber.getItems().add("once");
         for (int i = 1; i <= 31; i++) {
             dateBoxNumber.getItems().add(i);
         }
@@ -145,6 +149,7 @@ public class NewTransaction {
         messageBox.clear();
         dateBoxNumber.getSelectionModel().selectFirst();
         dateBoxOccurrence.getSelectionModel().selectFirst();
+        datepicker.setValue(LocalDate.now());
     }
 
 

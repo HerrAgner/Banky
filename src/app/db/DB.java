@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -107,8 +109,9 @@ public abstract class DB {
     }
 
     public static void scheduledTransaction(String name, String schedule, int from, int to, float amount, String message) {
-        String eventname = name;
+        String eventname = name + Instant.now().toEpochMilli();
         String schdl = schedule;
+        System.out.println(eventname);
         try {
 //            PreparedStatement stm = Database.getInstance().getConn().prepareStatement("CREATE EVENT dfgh ON SCHEDULE EVERY 1 MONTH DO UPDATE accounts SET account_name = yolsdo WHERE account_number = 321321321;");
             PreparedStatement stmt = Database.getInstance().getConn().prepareStatement("CREATE EVENT "+eventname+" ON SCHEDULE "+schdl+" DO CALL transaction(?,?,?,?,?);");
