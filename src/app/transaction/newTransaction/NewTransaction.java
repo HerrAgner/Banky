@@ -94,7 +94,7 @@ public class NewTransaction {
         } else if (bg.matcher(accNumber).matches()) {
             System.out.println("bg");
             return "BG";
-        } else if (!dateBoxNumber.getSelectionModel().getSelectedItem().equals("now") && !dateBoxOccurrence.getSelectionModel().getSelectedItem().equals("now")) {
+        } else if (dateBoxNumber.getSelectionModel().getSelectedItem() != null && dateBoxOccurrence.getSelectionModel().getSelectedItem() != null) {
             return "Autogiro";
         } else {
             return "Transaction";
@@ -168,10 +168,20 @@ public class NewTransaction {
     private void addTextLimiter(final TextField tf) {
         tf.textProperty().addListener((ov, oldValue, newValue) -> {
             String text;
-            text = newValue.replaceAll("[^\\d ]", "").replaceAll("[ ]{2,}", " ");
+            text = newValue.replaceAll("[^\\d ]()|[ ]+( )", "$1$2");
+//                    .replaceAll("[ ]{2,}", " ");
 //            text = text.replace("  "," ");
             tf.setText(text);
         });
+    }
+
+    @FXML
+    private void confirmButtonListener() throws IOException {
+        if(!toAccount.getText().isEmpty() && !amount.getText().isEmpty() && !messageBox.getText().isEmpty()) {
+            transaction();
+        } else {
+            result.setText("Please fill in all fields");
+        }
     }
 
     private void clearFields() {

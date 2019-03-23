@@ -41,8 +41,8 @@
             <TextField fx:id="amount" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="messageBox" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <DatePicker fx:id="datepicker" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Button fx:id="confirm" mnemonicParsing="false" onAction="#transaction" text="Confirm" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <CheckBox fx:id="autogiroCheckBox" alignment="BOTTOM_LEFT" contentDisplay="RIGHT" graphicTextGap="8.0" mnemonicParsing="false" text="Reoccuring payment" GridPane.rowIndex="5" />
+            <Button fx:id="confirm" mnemonicParsing="false" onAction="#confirmButtonListener" text="Confirm" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <CheckBox fx:id="autogiroCheckBox" alignment="BOTTOM_LEFT" contentDisplay="RIGHT" graphicTextGap="8.0" mnemonicParsing="false" text="Recurring payment" GridPane.rowIndex="5" />
             <HBox GridPane.columnIndex="1" GridPane.rowIndex="5">
                <children>
                   <ComboBox fx:id="dateBoxNumber" prefWidth="150.0" />
