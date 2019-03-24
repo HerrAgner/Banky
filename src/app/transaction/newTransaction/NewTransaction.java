@@ -72,7 +72,7 @@ public class NewTransaction {
                     convertBoxToTime(),
                     Integer.parseInt(comboBox.getSelectionModel().getSelectedItem().toString()),
                     convertAccountNumber(),
-                    Float.parseFloat(amount.getText()),
+                    Double.parseDouble(amount.getText()),
                     messageBox.getText());
             result.setText("NEW TRANSACTION MADE \n" +
                     "From account: " + comboBox.getSelectionModel().getSelectedItem().toString() +
@@ -89,15 +89,13 @@ public class NewTransaction {
         Pattern pg = Pattern.compile("^(\\d{3,4}-\\d{4})");
         Pattern bg = Pattern.compile("^(\\d{5,7}-\\d)");
         if (pg.matcher(accNumber).matches()) {
-            System.out.println("pg");
             return "PG";
         } else if (bg.matcher(accNumber).matches()) {
-            System.out.println("bg");
             return "BG";
         } else if (dateBoxNumber.getSelectionModel().getSelectedItem() != null && dateBoxOccurrence.getSelectionModel().getSelectedItem() != null) {
-            return "Autogiro";
+            return "AG";
         } else {
-            return "Transaction";
+            return "TX";
         }
     }
 
@@ -112,7 +110,7 @@ public class NewTransaction {
         String date = "STARTS '" + Timestamp.valueOf(datepicker.getValue().atStartOfDay()) + "'";
 
         if (dateBoxNumber.getSelectionModel().getSelectedItem() == null && dateBoxOccurrence.getSelectionModel().getSelectedItem() == null) {
-            when = "AT ";
+            when = "AT";
             time = "CURRENT_TIMESTAMP";
             return when + " " + time;
         } else if (dateBoxNumber.getSelectionModel().getSelectedItem() == null && dateBoxOccurrence.getSelectionModel().getSelectedItem() != null) {
@@ -188,8 +186,8 @@ public class NewTransaction {
         toAccount.clear();
         amount.clear();
         messageBox.clear();
-        dateBoxNumber.getSelectionModel().selectFirst();
-        dateBoxOccurrence.getSelectionModel().selectFirst();
+//        dateBoxNumber.getSelectionModel().selectFirst();
+//        dateBoxOccurrence.getSelectionModel().selectFirst();
         datepicker.setValue(LocalDate.now());
     }
 

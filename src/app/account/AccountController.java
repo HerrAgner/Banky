@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -25,7 +26,7 @@ import java.util.List;
 public class AccountController {
     Account account = null;
     @FXML
-    VBox transactionBox;
+    ListView transactionBox;
     @FXML
     Button loadAll;
 
@@ -37,17 +38,26 @@ public class AccountController {
         if (this.account == null) {
             account = LoginController.getUser().getAccountList().get(0);
         }
-        Platform.runLater(() -> loadMoreTransactions(account.getAccountNumber()));
+        Platform.runLater(() -> loadTransactions());
     }
 
-    void loadMoreTransactions(int accnumber) {
-            transactions = (List<Transaction>) DB.getTransactions(accnumber, 0, 10);
-            displayTransaction(transactions);
+    @FXML
+    void loadTransactions(){
+        transactions = (List<Transaction>) DB.getTransactions(account.getAccountNumber(), 0, 10);
+        displayTransaction(transactions);
+        if(transactions.size() < 10){
+            loadAll.setVisible(false);
+        }
     }
 
+    @FXML
+    public void loadAllTransactions(){
+        transactions = (List<Transaction>) DB.getTransactions(account.getAccountNumber(), 0, Integer.MAX_VALUE);
+        displayTransaction(transactions);
+    }
     void displayTransaction(List<Transaction> transactions) {
-        transactionBox.getChildren().clear();
-        transactionBox.getChildren().add(accountBalance());
+        transactionBox.getItems().add(accountBalance());
+        transactionBox.getItems().clear();
         transactions.forEach(transaction -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/transaction/transaction.fxml"));
@@ -57,7 +67,7 @@ public class AccountController {
                 TransactionController controller = loader.getController();
                 controller.setTransaction(transaction, account.getAccountNumber());
 
-                transactionBox.getChildren().add(scene.getRoot());
+                transactionBox.getItems().add(scene.getRoot());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -83,16 +93,5 @@ public class AccountController {
 
     public void setAccount(int accountNumber) {
         account = DB.getAccount(accountNumber);
-    }
-
-    @FXML
-    void clickLoadTransactions(Event e) {
-        loadMoreTransactions(account.getAccountNumber());
-    }
-
-    @FXML
-    void loadAll(Event e) {
-        transactions = (List<Transaction>) DB.getTransactions(account.getAccountNumber(),0, Integer.MAX_VALUE);
-        displayTransaction(transactions);
     }
 }

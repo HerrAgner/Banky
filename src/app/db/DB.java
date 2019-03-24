@@ -108,15 +108,13 @@ public abstract class DB {
         stmt.executeUpdate();
     }
 
-    public static void scheduledTransaction(String name, String schedule, int from, int to, float amount, String message) {
+    public static void scheduledTransaction(String name, String schedule, int from, int to, double amount, String message) {
         String eventname = name + Instant.now().toEpochMilli();
-        String schdl = schedule;
-        System.out.println(eventname);
         try {
-//            PreparedStatement stm = Database.getInstance().getConn().prepareStatement("CREATE EVENT dfgh ON SCHEDULE EVERY 1 MONTH DO UPDATE accounts SET account_name = yolsdo WHERE account_number = 321321321;");
-            PreparedStatement stmt = Database.getInstance().getConn().prepareStatement("CREATE EVENT "+eventname+" ON SCHEDULE "+schdl+" DO CALL transaction(?,?,?,?,?);");
+            PreparedStatement stmt = Database.getInstance().getConn().prepareStatement("CREATE EVENT "+eventname+" ON SCHEDULE "+schedule+" DO CALL transaction(?,?,?,?,?);");
+
             stmt.setString(1, eventname);
-            stmt.setFloat(2, amount);
+            stmt.setDouble(2, amount);
             stmt.setInt(3, from);
             stmt.setInt(4, to);
             stmt.setString(5, message);

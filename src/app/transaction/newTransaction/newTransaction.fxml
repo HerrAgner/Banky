@@ -53,7 +53,7 @@
       </GridPane>
       <HBox>
          <children>
-            <Label fx:id="result" prefHeight="300.0" prefWidth="300.0" />
+            <Label fx:id="result" />
          </children>
       </HBox>
    </children>
