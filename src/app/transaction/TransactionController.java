@@ -31,12 +31,11 @@ public class TransactionController {
         }
         date.setText(String.format("%s",transaction.getDateAsString()));
         this.from.setText(String.valueOf(transaction.getReceiver()));
-        message.setMaxWidth(80);
+        message.setMaxWidth(100);
         amount.setMaxWidth(80);
-        date.setMaxWidth(80);
-        message.setMinWidth(80);
+        message.setMinWidth(100);
         amount.setMinWidth(80);
-        date.setMinWidth(140);
+        date.setMinWidth(100);
         Tooltip tooltip = new Tooltip(transaction.toString());
         Tooltip.install(box, tooltip);
     }
@@ -45,12 +44,12 @@ public class TransactionController {
         date.setText(String.format("%s",transaction.getDateAsString()));
         from.setText(String.valueOf(transaction.getReceiver()));
         amount.setText(String.valueOf(transaction.getAmount()));
-        message.setMaxWidth(80);
+        message.setMaxWidth(100);
         amount.setMaxWidth(80);
         date.setMaxWidth(80);
-        message.setMinWidth(80);
+        message.setMinWidth(100);
         amount.setMinWidth(80);
-        date.setMinWidth(140);
+        date.setMinWidth(100);
         Tooltip tooltip = new Tooltip(transaction.toString());
         Tooltip.install(box, tooltip);
 

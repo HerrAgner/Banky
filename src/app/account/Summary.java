@@ -5,6 +5,7 @@ import app.Entities.Transaction;
 import app.db.DB;
 import app.db.Database;
 import app.db.ObjectMapper;
+import app.login.LoginController;
 import app.transaction.TransactionController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -53,26 +54,16 @@ public class Summary {
     private void addLastTransactions() {
         List<?> transactions = null;
         CallableStatement stmt = null;
+        String personnummber = LoginController.getUser().getId();
+        System.out.println(personnummber);
         try {
-            stmt = Database.getInstance().getConn().prepareCall("call banky.all_transactions('8802122492', 5);");
+            stmt = Database.getInstance().getConn().prepareCall("call banky.all_transactions(?,?);");
+            stmt.setString(1, personnummber);
+            stmt.setInt(2, 5);
             transactions = new ObjectMapper<>(Transaction.class).map(stmt.executeQuery());
         } catch (Exception e) {
         }
-
-        summary.getItems().add(new Label("------------"));
-        summary.getItems().add(new Label("Last five transactions:"));
-        Label message = new Label("Message");
-        Label amount = new Label("Amount");
-        Label date = new Label("Date");
-        Label from = new Label("From");
-        message.setMinWidth(130);
-        amount.setMinWidth(50);
-        date.setMinWidth(120);
-        HBox messages = new HBox();
-        messages.setSpacing(60);
-        messages.getChildren().addAll(message,date,amount,from);
-        summary.getItems().addAll(messages);
-
+        addSpaces();
         transactions.forEach(o -> {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/transaction/transaction.fxml"));
             Parent fxmlInstance = null;
@@ -91,17 +82,29 @@ public class Summary {
         });
     }
 
-    List<?> getSummary() {
+    private void addSpaces() {
+        summary.getItems().add(new Label("------------"));
+        summary.getItems().add(new Label("Last five transactions:"));
+        Label message = new Label("Message");
+        Label amount = new Label("Amount");
+        Label date = new Label("Date");
+        Label from = new Label("From");
+        message.setMinWidth(130);
+        amount.setMinWidth(50);
+        date.setMinWidth(120);
+        HBox messages = new HBox();
+        messages.setSpacing(60);
+        messages.getChildren().addAll(message,date,amount,from);
+        summary.getItems().addAll(messages);
+    }
+
+    private List<?> getSummary() {
         List<?> accounts = null;
         CallableStatement stmt = null;
         try {
-            stmt = Database.getInstance().getConn().prepareCall("call banky.account_balance('8802122492');");
-            ResultSet rs = stmt.executeQuery();
+            stmt = Database.getInstance().getConn().prepareCall("call banky.account_balance(?);");
+            stmt.setString(1, LoginController.getUser().getId());
             accounts = new ObjectMapper<>(Account.class).map(stmt.executeQuery());
-//            while (rs.next()) {
-//                System.out.println(rs.getDouble(1));
-////               summaryOfAccounts.add(rs.getDouble(1));
-//            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
