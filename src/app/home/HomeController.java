@@ -7,12 +7,14 @@ import app.login.LoginController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class HomeController {
     LoginController login = new LoginController();
@@ -25,6 +27,12 @@ public class HomeController {
 
     @FXML
     VBox borderPaneMid;
+
+    @FXML
+    Button summary_button;
+
+    @FXML
+    Button card_payment;
 
     @FXML
     BorderPane borderPane;
@@ -63,6 +71,21 @@ public class HomeController {
     }
 
     @FXML
+    void cardPayment() {
+        ArrayList<Integer> cardAccount = new ArrayList<>();
+        LoginController.getUser().getAccountList().forEach(account -> {
+            if(account.getType().equals("card")) {
+                cardAccount.add(account.getAccountNumber());
+            }
+        });
+        try {
+            DB.newTransaction(cardAccount.get(0), 55554444, 200, "Card Payment");
+        } catch (SQLException e) {
+            System.out.println("You have no card account");
+        }
+    }
+
+    @FXML
     public void generateAccounts() {
         VBox accountContainer = new VBox();
         accountContainer.getChildren().clear();
@@ -83,15 +106,12 @@ public class HomeController {
             accountContainer.getChildren().add(accountButton);
         });
         bigAccountBox.setContent(accountContainer);
-        account_box.getChildren().add(addSummaryButton());
-
     }
-    private Button addSummaryButton() {
-        Button button = new Button("Summary of all accounts");
-        button.setOnAction(actionEvent -> {
+
+    @FXML
+    void addSummaryButton() {
             switchScene("/app/account/summary.fxml");
-        });
-        return button;
+
     }
 
     void switchScene(String pathname) {

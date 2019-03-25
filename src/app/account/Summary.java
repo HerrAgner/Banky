@@ -60,12 +60,13 @@ public class Summary {
         }
 
         summary.getItems().add(new Label("------------"));
+        summary.getItems().add(new Label("Last five transactions:"));
         Label message = new Label("Message");
         Label amount = new Label("Amount");
         Label date = new Label("Date");
         Label from = new Label("From");
-        message.setMinWidth(80);
-        amount.setMinWidth(80);
+        message.setMinWidth(130);
+        amount.setMinWidth(50);
         date.setMinWidth(120);
         HBox messages = new HBox();
         messages.setSpacing(60);

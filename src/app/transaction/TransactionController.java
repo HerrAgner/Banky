@@ -5,6 +5,8 @@ import app.Entities.Transaction;
 import app.login.LoginController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
+import javafx.scene.layout.HBox;
 
 public class TransactionController {
 
@@ -12,6 +14,8 @@ public class TransactionController {
     @FXML Label amount;
     @FXML Label date;
     @FXML Label from;
+    @FXML
+    HBox box;
 
     @FXML
     private void initialize(){
@@ -33,6 +37,8 @@ public class TransactionController {
         message.setMinWidth(80);
         amount.setMinWidth(80);
         date.setMinWidth(140);
+        Tooltip tooltip = new Tooltip(transaction.toString());
+        Tooltip.install(box, tooltip);
     }
     public void setTransaction(Transaction transaction) {
         message.setText(transaction.getMessage());
@@ -45,5 +51,9 @@ public class TransactionController {
         message.setMinWidth(80);
         amount.setMinWidth(80);
         date.setMinWidth(140);
+        Tooltip tooltip = new Tooltip(transaction.toString());
+        Tooltip.install(box, tooltip);
+
     }
+
 }
