@@ -13,7 +13,11 @@
          <children>
             <TitledPane fx:id="bigAccountBox" animated="false" expanded="false" text="Accounts">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <VBox id="account_buttons" fx:id="account_buttons">
+                     <children>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
               </content>
             </TitledPane>
             <Button fx:id="card_payment" mnemonicParsing="false" onAction="#cardPayment" text="Card payment 200kr" />

@@ -16,11 +16,11 @@ public class UpdateAccount {
 
     @FXML
     void initialize() {
-        loadAccounts();
-        LoginController.getUser().generateAccountsOnUser();
     }
 
-    private void loadAccounts() {
+    public void loadAccounts() {
+        accordion.getPanes().clear();
+        LoginController.getUser().generateAccountsOnUser();
         LoginController.getUser().getAccountList().forEach(account -> {
             ComboBox type = new ComboBox();
             Label type1 = new Label("Saving");
@@ -41,14 +41,14 @@ public class UpdateAccount {
                 Label label = (Label) type.getSelectionModel().getSelectedItem();
                 DB.updateAccount(account.getAccountNumber(), accName.getText(), label.getText());
                 Button accountButton = (Button)Main.stage.getScene().lookup("#"+account.getAccountNumber());
-                accountButton.setText(String.format("%s %d %s", accName.getText(), account.getAccountNumber(), label.getText()));
+                accountButton.setText(String.format("%s %s %s", accName.getText(), account.getAccountNumber(), label.getText()));
                 pane.setText(String.valueOf(account.getName()));
             });
 
             deleteAccount.setOnAction(actionEvent -> {
                 DB.deleteAccount(account.getAccountNumber());
                 LoginController.getUser().getAccountList().remove(account);
-                VBox accountBox = (VBox) Main.stage.getScene().lookup("#account_box");
+                VBox accountBox = (VBox) Main.stage.getScene().lookup("#account_buttons");
                 accountBox.getChildren().remove(Main.stage.getScene().lookup("#"+account.getAccountNumber()));
                 accordion.getPanes().remove(pane);
             });

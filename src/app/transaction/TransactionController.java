@@ -24,7 +24,7 @@ public class TransactionController {
 
     public void setTransaction(Transaction transaction, String from) {
         message.setText(transaction.getMessage());
-        if (transaction.getAccount_id() == from) {
+        if (transaction.getAccount_id().equals(from)) {
             amount.setText(String.format("-%.2f",transaction.getAmount()));
         } else {
             amount.setText(String.format("+%.2f",transaction.getAmount()));

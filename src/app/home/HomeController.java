@@ -2,6 +2,8 @@ package app.home;
 
 import app.Main;
 import app.account.AccountController;
+import app.account.createAccount;
+import app.account.updateAccount.UpdateAccount;
 import app.db.DB;
 import app.login.LoginController;
 import javafx.fxml.FXML;
@@ -21,6 +23,9 @@ public class HomeController {
 
     @FXML
     public VBox account_box;
+
+    @FXML
+    VBox account_buttons;
 
     @FXML
     TitledPane bigAccountBox;
@@ -88,7 +93,7 @@ public class HomeController {
     @FXML
     public void generateAccounts() {
         VBox accountContainer = new VBox();
-        accountContainer.getChildren().clear();
+        account_buttons.getChildren().clear();
         LoginController.getUser().getAccountList().forEach(account -> {
             Button accountButton = new Button();
             String id = String.valueOf(account.getAccountNumber());
@@ -103,9 +108,9 @@ public class HomeController {
                 }
 //                asd.clickLoadTransactions(actionEvent, account.getAccountNumber());
             });
-            accountContainer.getChildren().add(accountButton);
+            account_buttons.getChildren().add(accountButton);
         });
-        bigAccountBox.setContent(accountContainer);
+        bigAccountBox.setContent(account_buttons);
     }
 
     @FXML
@@ -149,7 +154,12 @@ public class HomeController {
 
         FXMLLoader change = new FXMLLoader( getClass().getResource("/app/account/updateAccount/updateAccount.fxml") );
         Parent changeInstance = change.load();
-        m3.setOnAction(actionEvent -> borderPane.setCenter(changeInstance));
+
+        m3.setOnAction(actionEvent -> {
+            UpdateAccount controller = change.getController();
+            controller.loadAccounts();
+            borderPane.setCenter(changeInstance);
+        });
 
         MenuBar mb = new MenuBar();
         mb.getMenus().add(m);

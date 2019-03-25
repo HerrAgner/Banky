@@ -49,7 +49,7 @@ public class createAccount {
             Button accountButton = new Button();
             LoginController.getUser().generateAccountsOnUser();
 
-            VBox accountBox = (VBox) Main.stage.getScene().lookup("#account_box");
+            VBox accountBox = (VBox) Main.stage.getScene().lookup("#account_buttons");
             String id = String.valueOf(accNumber.getText());
             accountButton.setId(id);
             accountButton.setMinWidth(200);
