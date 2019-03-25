@@ -2,7 +2,6 @@ package app.home;
 
 import app.Main;
 import app.account.AccountController;
-import app.account.createAccount;
 import app.account.updateAccount.UpdateAccount;
 import app.db.DB;
 import app.login.LoginController;
@@ -16,7 +15,6 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class HomeController {
     LoginController login = new LoginController();

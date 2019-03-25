@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-public class createAccount {
+public class CreateAccount {
 
     @FXML
     VBox create_account;

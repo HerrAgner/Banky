@@ -9,14 +9,17 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -61,27 +64,31 @@ public class NewTransaction {
     @FXML
     void transaction() throws IOException {
         Platform.runLater(() -> {
-//            "AT \""+Timestamp.valueOf(datepicker.getValue().atTime(LocalTime.from(LocalDateTime.now().plusMinutes(1))))+"\""
-//            try {
-//                DB.newTransaction(
-//                        Integer.parseInt(comboBox.getSelectionModel().getSelectedItem().toString()),
-//                        Integer.parseInt(toAccount.getText()),
-//                        Float.parseFloat(amount.getText()),
-//                        messageBox.getText());
-            DB.scheduledTransaction(transactionType(),
+            String eventname = transactionType() + Instant.now().toEpochMilli();
+            DB.scheduledTransaction(eventname,
                     convertBoxToTime(),
                     comboBox.getSelectionModel().getSelectedItem().toString(),
                     convertAccountNumber(),
                     Double.parseDouble(amount.getText()),
                     messageBox.getText());
+            clearFields();
+            resultText(eventname);
+        });
+    }
+
+    private void resultText(String name) {
+        if (DB.validateInsert(name)) {
+            result.setTextFill(Color.GREEN);
             result.setText("NEW TRANSACTION MADE \n" +
                     "From account: " + comboBox.getSelectionModel().getSelectedItem().toString() +
                     "\nTo account: " + toAccount.getText() +
                     "\nwith amount: " + amount.getText() +
                     "\nwith message: " + messageBox.getText() +
                     "\n" + datepicker.getValue());
-            clearFields();
-        });
+        } else {
+            result.setTextFill(Color.RED);
+            result.setText("Transaction failed");
+        }
     }
 
     private String transactionType() {
@@ -175,7 +182,7 @@ public class NewTransaction {
 
     @FXML
     private void confirmButtonListener() throws IOException {
-        if(!toAccount.getText().isEmpty() && !amount.getText().isEmpty() && !messageBox.getText().isEmpty()) {
+        if (!toAccount.getText().isEmpty() && !amount.getText().isEmpty() && !messageBox.getText().isEmpty()) {
             transaction();
         } else {
             result.setText("Please fill in all fields");

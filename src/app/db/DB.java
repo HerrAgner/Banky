@@ -4,11 +4,10 @@ import app.Entities.Account;
 import app.Entities.Transaction;
 import app.Entities.User;
 import app.login.LoginController;
+import javafx.application.Platform;
+import javafx.scene.control.DatePicker;
 
-import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -109,12 +108,9 @@ public abstract class DB {
     }
 
     public static void scheduledTransaction(String name, String schedule, String from, String to, double amount, String message) {
-        String eventname = name + Instant.now().toEpochMilli();
-        System.out.println(schedule);
         try {
-            PreparedStatement stmt = Database.getInstance().getConn().prepareStatement("CREATE EVENT "+eventname+" ON SCHEDULE "+schedule+" DO CALL transaction(?,?,?,?,?);");
-
-            stmt.setString(1, eventname);
+            PreparedStatement stmt = Database.getInstance().getConn().prepareStatement("CREATE EVENT " + name + " ON SCHEDULE " + schedule + " DO CALL transaction(?,?,?,?,?);");
+            stmt.setString(1, name);
             stmt.setDouble(2, amount);
             stmt.setString(3, from);
             stmt.setString(4, to);
@@ -123,6 +119,25 @@ public abstract class DB {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean validateInsert(String name) {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        PreparedStatement stmt = prep("SELECT * FROM transactions WHERE transaction_type = ?;");
+        try {
+            stmt.setString(1, name);
+            ResultSet as = stmt.executeQuery();
+            if (as.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public static List<?> getTransactions(String accountId) {
