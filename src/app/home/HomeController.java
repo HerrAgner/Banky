@@ -54,7 +54,7 @@ public class HomeController {
     }
 
     @FXML
-    public void goToAccount(int id) throws IOException {
+    public void goToAccount(String id) throws IOException {
         FXMLLoader loader = new FXMLLoader( getClass().getResource( "/app/account/account.fxml" ) );
         Parent fxmlInstance = loader.load();
         borderPane.setCenter(fxmlInstance);
@@ -72,14 +72,14 @@ public class HomeController {
 
     @FXML
     void cardPayment() {
-        ArrayList<Integer> cardAccount = new ArrayList<>();
+        ArrayList<String> cardAccount = new ArrayList<>();
         LoginController.getUser().getAccountList().forEach(account -> {
             if(account.getType().equals("card")) {
                 cardAccount.add(account.getAccountNumber());
             }
         });
         try {
-            DB.newTransaction(cardAccount.get(0), 55554444, 200, "Card Payment");
+            DB.newTransaction(cardAccount.get(0), "55554444", 200, "Card Payment");
         } catch (SQLException e) {
             System.out.println("You have no card account");
         }

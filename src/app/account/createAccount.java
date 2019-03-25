@@ -45,7 +45,7 @@ public class createAccount {
 
         confirm.setOnAction(actionEvent -> {
             Label label = (Label) type.getSelectionModel().getSelectedItem();
-            DB.createAccount(Integer.parseInt(accNumber.getText()), accName.getText(), label.getText());
+            DB.createAccount(accNumber.getText(), accName.getText(), label.getText());
             Button accountButton = new Button();
             LoginController.getUser().generateAccountsOnUser();
 
@@ -63,7 +63,7 @@ public class createAccount {
                     Parent fxmlInstance = loader.load();
                     borderPane.setCenter(fxmlInstance);
                     AccountController controller = loader.getController();
-                    controller.setAccount(Integer.parseInt(accNumber.getText()));
+                    controller.setAccount(accNumber.getText());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -91,7 +91,7 @@ public class AccountController {
         return balanceBox;
     }
 
-    public void setAccount(int accountNumber) {
+    public void setAccount(String accountNumber) {
         account = DB.getAccount(accountNumber);
     }
 }

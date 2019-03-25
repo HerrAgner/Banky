@@ -4,10 +4,7 @@ package app.Entities;
 import app.annotations.Column;
 
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 public class Transaction {
@@ -18,9 +15,9 @@ public class Transaction {
     @Column("transaction_amount")
     private float amount;
     @Column("account_id")
-    private int account_id;
+    private String account_id;
     @Column("receiver_id")
-    private int receiver;
+    private String receiver;
     @Column("transaction_date_time")
     private Timestamp date;
 
@@ -34,11 +31,12 @@ public class Transaction {
         return getDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace('T', ' ');
     }
 
-    public int getAccount_id() {
+
+    public String getAccount_id() {
         return account_id;
     }
 
-    public int getReceiver() {
+    public String getReceiver() {
         return receiver;
     }
 
@@ -48,6 +46,6 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "date: "+date+", Amount: "+amount+", from: "+account_id+", to: "+receiver+", message: "+message;
+        return "date: "+getDateAsString()+", Amount: "+amount+", from: "+account_id+", to: "+receiver+", message: "+message;
     }
 }

@@ -22,14 +22,14 @@ public class TransactionController {
         System.out.println("initialize transaction");
     }
 
-    public void setTransaction(Transaction transaction, int from) {
+    public void setTransaction(Transaction transaction, String from) {
         message.setText(transaction.getMessage());
         if (transaction.getAccount_id() == from) {
             amount.setText(String.format("-%.2f",transaction.getAmount()));
         } else {
             amount.setText(String.format("+%.2f",transaction.getAmount()));
         }
-        date.setText(String.format("%s",transaction.getDateAsString()));
+        date.setText(transaction.getDateAsString().toString());
         this.from.setText(String.valueOf(transaction.getReceiver()));
         message.setMaxWidth(100);
         amount.setMaxWidth(80);

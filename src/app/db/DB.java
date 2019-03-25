@@ -47,22 +47,22 @@ public abstract class DB {
         return accounts;
     }
 
-    public static Account getAccount(long account) {
+    public static Account getAccount(String account) {
         Account returnAccount = null;
         PreparedStatement ps = prep("SELECT * FROM accounts WHERE account_number = ?");
         try {
-            ps.setLong(1, account);
+            ps.setString(1, account);
             returnAccount = (Account) new ObjectMapper<>(Account.class).mapOne(ps.executeQuery());
         } catch (Exception e) {
         }
         return returnAccount;
     }
 
-    public static void updateAccount(int accNumber, String name, String type) {
+    public static void updateAccount(String accNumber, String name, String type) {
         CallableStatement stmt = null;
         try {
             stmt = Database.getInstance().getConn().prepareCall("{call update_account(?,?,?)}");
-            stmt.setInt(1, accNumber);
+            stmt.setString(1, accNumber);
             stmt.setString(2, name);
             stmt.setString(3, type);
             stmt.executeUpdate();
@@ -71,11 +71,11 @@ public abstract class DB {
         }
     }
 
-    public static void createAccount(int accNumber, String name, String type) {
+    public static void createAccount(String accNumber, String name, String type) {
         CallableStatement stmt = null;
         try {
             stmt = Database.getInstance().getConn().prepareCall("{call create_account(?,?,?,?,?)}");
-            stmt.setInt(1, accNumber);
+            stmt.setString(1, accNumber);
             stmt.setString(2, LoginController.getUser().getAccountList().get(0).getOwner());
             stmt.setDouble(3, 0);
             stmt.setString(4, type);
@@ -86,29 +86,29 @@ public abstract class DB {
         }
     }
 
-    public static void deleteAccount(int accNumber) {
+    public static void deleteAccount(String accNumber) {
         CallableStatement stmt = null;
         try {
             stmt = Database.getInstance().getConn().prepareCall("{call delete_account(?)}");
-            stmt.setInt(1, accNumber);
+            stmt.setString(1, accNumber);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static void newTransaction(int from, int to, float amount, String message) throws SQLException {
+    public static void newTransaction(String from, String to, float amount, String message) throws SQLException {
         CallableStatement stmt = null;
         stmt = Database.getInstance().getConn().prepareCall("{call transaction(?,?,?,?,?)}");
         stmt.setString(1, "transaction");
         stmt.setFloat(2, amount);
-        stmt.setInt(3, from);
-        stmt.setInt(4, to);
+        stmt.setString(3, from);
+        stmt.setString(4, to);
         stmt.setString(5, message);
         stmt.executeUpdate();
     }
 
-    public static void scheduledTransaction(String name, String schedule, int from, int to, double amount, String message) {
+    public static void scheduledTransaction(String name, String schedule, String from, String to, double amount, String message) {
         String eventname = name + Instant.now().toEpochMilli();
         System.out.println(schedule);
         try {
@@ -116,8 +116,8 @@ public abstract class DB {
 
             stmt.setString(1, eventname);
             stmt.setDouble(2, amount);
-            stmt.setInt(3, from);
-            stmt.setInt(4, to);
+            stmt.setString(3, from);
+            stmt.setString(4, to);
             stmt.setString(5, message);
             stmt.execute();
         } catch (SQLException e) {
@@ -125,20 +125,20 @@ public abstract class DB {
         }
     }
 
-    public static List<?> getTransactions(int accountId) {
+    public static List<?> getTransactions(String accountId) {
         return getTransactions(accountId, 0, 10);
     }
 
-    public static List<?> getTransactions(int accountId, int offset) {
+    public static List<?> getTransactions(String accountId, int offset) {
         return getTransactions(accountId, offset, offset + 10);
     }
 
-    public static List<?> getTransactions(int accountId, int offset, int limit) {
+    public static List<?> getTransactions(String accountId, int offset, int limit) {
         List<?> result = null;
         PreparedStatement ps = prep("SELECT * FROM transactions WHERE account_id = ? OR receiver_id = ? ORDER BY transaction_date_time DESC LIMIT " + limit + " OFFSET " + offset);
         try {
-            ps.setInt(1, accountId);
-            ps.setInt(2, accountId);
+            ps.setString(1, accountId);
+            ps.setString(2, accountId);
             result = new ObjectMapper<>(Transaction.class).map(ps.executeQuery());
         } catch (Exception e) {
             e.printStackTrace();

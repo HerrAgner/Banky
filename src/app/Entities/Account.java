@@ -6,7 +6,7 @@ public class Account {
 
 
     @Column("account_number")
-    private int accountNumber;
+    private String accountNumber;
     @Column("balance")
     private double balance;
     @Column ("account_name")
@@ -16,7 +16,7 @@ public class Account {
     @Column ("person_id")
     private String owner;
 
-    public int getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
 
@@ -38,6 +38,6 @@ public class Account {
 
     @Override
     public String toString() {
-        return String.format("%s %d %s", name , accountNumber, type);
+        return String.format("%s %s %s", name , accountNumber, type);
     }
 }

@@ -70,7 +70,7 @@ public class NewTransaction {
 //                        messageBox.getText());
             DB.scheduledTransaction(transactionType(),
                     convertBoxToTime(),
-                    Integer.parseInt(comboBox.getSelectionModel().getSelectedItem().toString()),
+                    comboBox.getSelectionModel().getSelectedItem().toString(),
                     convertAccountNumber(),
                     Double.parseDouble(amount.getText()),
                     messageBox.getText());
@@ -99,9 +99,9 @@ public class NewTransaction {
         }
     }
 
-    private int convertAccountNumber() {
+    private String convertAccountNumber() {
         String accNumber = toAccount.getText().replaceAll("\\D", "");
-        return Integer.parseInt(accNumber);
+        return accNumber;
     }
 
     private String convertBoxToTime() {
