@@ -15,8 +15,13 @@ public class Main extends Application {
         // First FXML that should be displayed is the Login
         // after successful login you should get transferred to Home
         Parent root = FXMLLoader.load(getClass().getResource("/app/login/login.fxml"));
+
+
+
         primaryStage.setTitle("Banky");
         primaryStage.setScene(new Scene(root));
+        String darkmodeCss = this.getClass().getResource("/app/darkmode.css").toExternalForm();
+        primaryStage.getScene().getStylesheets().add(darkmodeCss);
         primaryStage.show();
     }
 

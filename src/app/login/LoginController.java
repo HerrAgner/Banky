@@ -46,7 +46,9 @@ public class LoginController {
         try {
             Parent bla = FXMLLoader.load(getClass().getResource(pathname));
             Scene scene = new Scene(bla, 800, 600);
+            String darkmodeCss = this.getClass().getResource("/app/darkmode.css").toExternalForm();
             Main.stage.setScene(scene);
+            Main.stage.getScene().getStylesheets().add(darkmodeCss);
             Main.stage.show();
         } catch (IOException e1) {
             e1.printStackTrace();

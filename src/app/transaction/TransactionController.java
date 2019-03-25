@@ -25,7 +25,7 @@ public class TransactionController {
         } else {
             amount.setText(String.format("+%.2f",transaction.getAmount()));
         }
-        date.setText(String.format("%s",transaction.getDate()));
+        date.setText(String.format("%s",transaction.getDateAsString()));
         this.from.setText(String.valueOf(transaction.getReceiver()));
         message.setMaxWidth(80);
         amount.setMaxWidth(80);

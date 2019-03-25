@@ -21,6 +21,9 @@ public class HomeController {
     public VBox account_box;
 
     @FXML
+    TitledPane bigAccountBox;
+
+    @FXML
     VBox borderPaneMid;
 
     @FXML
@@ -60,7 +63,8 @@ public class HomeController {
 
     @FXML
     public void generateAccounts() {
-        account_box.getChildren().clear();
+        VBox accountContainer = new VBox();
+        accountContainer.getChildren().clear();
         LoginController.getUser().getAccountList().forEach(account -> {
             Button accountButton = new Button();
             String id = String.valueOf(account.getAccountNumber());
@@ -75,8 +79,9 @@ public class HomeController {
                 }
 //                asd.clickLoadTransactions(actionEvent, account.getAccountNumber());
             });
-            account_box.getChildren().add(accountButton);
+            accountContainer.getChildren().add(accountButton);
         });
+        bigAccountBox.setContent(accountContainer);
     }
 
     void switchScene(String pathname) {

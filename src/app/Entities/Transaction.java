@@ -4,7 +4,11 @@ package app.Entities;
 import app.annotations.Column;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Transaction {
     @Column("transaction_id")
@@ -23,8 +27,11 @@ public class Transaction {
     public String getMessage() { return message; }
     public float getAmount() { return amount; }
 
-    public Timestamp getDate() {
-        return date;
+    public ZonedDateTime getDate() {
+        return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.of("Europe/Berlin"));
+    }
+    public String getDateAsString(){
+        return getDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace('T', ' ');
     }
 
     public int getAccount_id() {
