@@ -48,6 +48,6 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return String.format("date: %s\nid %d, Amount: %.2f, from: %d, to: %d message: %s\n",date, id, amount, account_id, receiver, message);
+        return String.format("date: %s\n Amount: %.2f, from: %d, to: %d message: %s\n",date, id, amount, account_id, receiver, message);
     }
 }

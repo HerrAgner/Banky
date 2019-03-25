@@ -33,6 +33,17 @@ public class TransactionController {
         message.setMinWidth(80);
         amount.setMinWidth(80);
         date.setMinWidth(140);
-
+    }
+    public void setTransaction(Transaction transaction) {
+        message.setText(transaction.getMessage());
+        date.setText(String.format("%s",transaction.getDateAsString()));
+        from.setText(String.valueOf(transaction.getReceiver()));
+        amount.setText(String.valueOf(transaction.getAmount()));
+        message.setMaxWidth(80);
+        amount.setMaxWidth(80);
+        date.setMaxWidth(80);
+        message.setMinWidth(80);
+        amount.setMinWidth(80);
+        date.setMinWidth(140);
     }
 }

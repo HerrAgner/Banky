@@ -110,6 +110,7 @@ public abstract class DB {
 
     public static void scheduledTransaction(String name, String schedule, int from, int to, double amount, String message) {
         String eventname = name + Instant.now().toEpochMilli();
+        System.out.println(schedule);
         try {
             PreparedStatement stmt = Database.getInstance().getConn().prepareStatement("CREATE EVENT "+eventname+" ON SCHEDULE "+schedule+" DO CALL transaction(?,?,?,?,?);");
 

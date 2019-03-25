@@ -34,6 +34,7 @@ public class HomeController {
         addMenu();
         // load accounts from db using LoginController.user.getId() and display them
 //        login.loadUser();
+
         generateAccounts();
 //        List<Transaction> transactions = (List<Transaction>) DB.getTransactions(321321321);
 //        DB.getTransactions(321321321);
@@ -82,6 +83,15 @@ public class HomeController {
             accountContainer.getChildren().add(accountButton);
         });
         bigAccountBox.setContent(accountContainer);
+        account_box.getChildren().add(addSummaryButton());
+
+    }
+    private Button addSummaryButton() {
+        Button button = new Button("Summary of all accounts");
+        button.setOnAction(actionEvent -> {
+            switchScene("/app/account/summary.fxml");
+        });
+        return button;
     }
 
     void switchScene(String pathname) {

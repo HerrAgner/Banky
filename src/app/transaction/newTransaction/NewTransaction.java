@@ -107,7 +107,7 @@ public class NewTransaction {
     private String convertBoxToTime() {
         String when;
         String time;
-        String date = "STARTS '" + Timestamp.valueOf(datepicker.getValue().atStartOfDay()) + "'";
+        String date = "STARTS '" + Timestamp.valueOf(datepicker.getValue().atTime(LocalTime.now())) + "'";
 
         if (dateBoxNumber.getSelectionModel().getSelectedItem() == null && dateBoxOccurrence.getSelectionModel().getSelectedItem() == null) {
             when = "AT";

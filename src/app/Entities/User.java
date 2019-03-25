@@ -28,6 +28,10 @@ public class User {
     public User() {
     }
 
+    public String getId() {
+        return id;
+    }
+
     public void generateAccountsOnUser(){
         accountList = (List<Account>) DB.getAccounts(id);
     }
