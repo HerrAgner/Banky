@@ -10,10 +10,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
 <FlowPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.account.Saldotak">
    <children>
-      <GridPane hgap="10.0" prefWidth="400.0" vgap="10.0">
+      <GridPane hgap="10.0" prefWidth="600.0" vgap="10.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
             <ColumnConstraints />
@@ -22,6 +21,9 @@
          <rowConstraints>
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
             <RowConstraints />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
          </rowConstraints>
          <children>
             <Label prefWidth="100.0" text="Saldotak" />
@@ -29,8 +31,14 @@
             <TextField fx:id="textFieldTak" promptText="saldotak" GridPane.columnIndex="2">
 
             </TextField>
-            <Label fx:id="currentSaldoTak" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="currentSaldoTak" GridPane.rowIndex="3" />
+            <Label text="Current saldotak" GridPane.rowIndex="2" />
                <Button fx:id="confirmTak" text="Confirm" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button fx:id="reset" mnemonicParsing="false" text="Reset saldotak" GridPane.rowIndex="4" />
+            <Label fx:id="current_amount" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="Sum of transactions last 7 days" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Amount left until saldotak is reached" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label fx:id="amount_left" GridPane.columnIndex="2" GridPane.rowIndex="3" />
          </children>
          <padding>
             <Insets left="20.0" top="20.0" />

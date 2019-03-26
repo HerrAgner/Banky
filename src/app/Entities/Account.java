@@ -58,7 +58,6 @@ public class Account {
         try {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                System.out.println("saldotak: " + rs.getObject(1));
                 saldotak = (double) rs.getObject(1);
             }
         } catch (SQLException e) {

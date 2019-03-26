@@ -170,7 +170,7 @@ public class NewTransaction {
         });
     }
 
-    private void addTextLimiter(final TextField tf) {
+    public static void addTextLimiter(final TextField tf) {
         tf.textProperty().addListener((ov, oldValue, newValue) -> {
             String text;
             text = newValue.replaceAll("[^\\d ]()|[ ]+( )", "$1$2");
