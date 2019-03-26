@@ -1,6 +1,8 @@
 package app.transaction.newTransaction;
 
+import app.Entities.Account;
 import app.db.DB;
+import app.db.Database;
 import app.login.LoginController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -16,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -57,22 +60,26 @@ public class NewTransaction {
         fillAccountBox();
         fillDateBox();
         toggleAutogiro();
-        addTextLimiter(amount);
+        addTextLimiter(amount, true);
     }
 
 
     @FXML
-    void transaction() throws IOException {
+    void transaction() {
         Platform.runLater(() -> {
             String eventname = transactionType() + Instant.now().toEpochMilli();
-            DB.scheduledTransaction(eventname,
-                    convertBoxToTime(),
-                    comboBox.getSelectionModel().getSelectedItem().toString(),
-                    convertAccountNumber(),
-                    Double.parseDouble(amount.getText()),
-                    messageBox.getText());
-            clearFields();
-            resultText(eventname);
+            if (validateSaldotak(comboBox.getSelectionModel().getSelectedItem().toString(), Double.parseDouble(amount.getText()))) {
+                DB.scheduledTransaction(eventname,
+                        convertBoxToTime(),
+                        comboBox.getSelectionModel().getSelectedItem().toString(),
+                        convertAccountNumber(),
+                        Double.parseDouble(amount.getText()),
+                        messageBox.getText());
+                clearFields();
+                resultText(eventname);
+            } else {
+                result.setText("Saldotak is reached. Lower the transaction amount or raise the saldotak.\nCurrent saldotak: "+returnAccount(comboBox.getSelectionModel().getSelectedItem().toString()).getSaldotak());
+            }
         });
     }
 
@@ -89,6 +96,19 @@ public class NewTransaction {
             result.setTextFill(Color.RED);
             result.setText("Transaction failed");
         }
+    }
+    private Account returnAccount(String accountNumber){
+        final Account[] curr = new Account[1];
+        LoginController.getUser().getAccountList().forEach(account -> {
+            if (account.getAccountNumber().equals(accountNumber)) {
+                curr[0] = account;
+            }
+        });
+        return curr[0];
+    }
+
+    private boolean validateSaldotak(String accNR, double currentTransactionAmount) {
+        return DB.saldotak(accNR, returnAccount(accNR).getSaldotak(), 7, currentTransactionAmount);
     }
 
     private String transactionType() {
@@ -170,10 +190,14 @@ public class NewTransaction {
         });
     }
 
-    public static void addTextLimiter(final TextField tf) {
+    public static void addTextLimiter(final TextField tf, Boolean spaces) {
         tf.textProperty().addListener((ov, oldValue, newValue) -> {
             String text;
-            text = newValue.replaceAll("[^\\d ]()|[ ]+( )", "$1$2");
+            if (spaces) {
+                text = newValue.replaceAll("[^\\d .]()|[ ]+( )", "$1$2");
+            } else {
+                text = newValue.replaceAll("[^\\d]", "");
+            }
 //                    .replaceAll("[ ]{2,}", " ");
 //            text = text.replace("  "," ");
             tf.setText(text);
@@ -181,7 +205,7 @@ public class NewTransaction {
     }
 
     @FXML
-    private void confirmButtonListener() throws IOException {
+    private void confirmButtonListener(){
         if (!toAccount.getText().isEmpty() && !amount.getText().isEmpty() && !messageBox.getText().isEmpty()) {
             transaction();
         } else {

@@ -44,17 +44,7 @@ public class HomeController {
     @FXML
     void initialize() throws IOException {
         addMenu();
-        // load accounts from db using LoginController.user.getId() and display them
-//        login.loadUser();
-
         generateAccounts();
-//        List<Transaction> transactions = (List<Transaction>) DB.getTransactions(321321321);
-//        DB.getTransactions(321321321);
-//        transactions.forEach(transaction -> {
-//            Label label = new Label();
-//            label.setText(transaction.toString());
-//            borderPaneMid.getChildren().add(label);
-//        });
     }
 
     @FXML
@@ -62,16 +52,10 @@ public class HomeController {
         FXMLLoader loader = new FXMLLoader( getClass().getResource( "/app/account/account.fxml" ) );
         Parent fxmlInstance = loader.load();
         borderPane.setCenter(fxmlInstance);
-//        Scene scene = new Scene( fxmlInstance, 800, 600 );
-
-        // Make sure that you display "the correct account" based on which one you clicked on
             AccountController controller = loader.getController();
             controller.setAccount(id);
 
-        // If you don't want to have/use the static variable Main.stage
-//        Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
-//        Main.stage.setScene(scene);
-        Main.stage.show();
+//        Main.stage.show();
     }
 
     @FXML
@@ -83,7 +67,7 @@ public class HomeController {
             }
         });
         try {
-            DB.newTransaction(cardAccount.get(0), "55554444", 200, "Card Payment");
+            DB.newTransaction(cardAccount.get(0), "33334444", 200, "Card Payment");
         } catch (SQLException e) {
             System.out.println("You have no card account");
         }

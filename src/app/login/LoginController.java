@@ -27,7 +27,7 @@ public class LoginController {
 
     @FXML
     private void initialize() {
-        System.out.println("initialize login");
+//        System.out.println("initialize login");
     }
 
     public void loadUser(){
@@ -38,8 +38,6 @@ public class LoginController {
         } else {
             goToHome();
         }
-        // if null display error
-        // else switchScene to Home
     }
 
     void switchScene(String pathname) {

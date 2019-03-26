@@ -29,7 +29,7 @@ public abstract class DB {
             ps.setString(1, username);
             ps.setString(2, password);
             result = (User) new ObjectMapper<>(User.class).mapOne(ps.executeQuery());
-            System.out.println(result);
+//            System.out.println(result);
         } catch (Exception e) {
         }
         return result; // return User;
@@ -121,17 +121,19 @@ public abstract class DB {
         }
     }
 
-    public static boolean saldotak(String accNr, int saldotak, int days, double amount) {
-        CallableStatement stmt = null;
+    public static boolean saldotak(String accNr, double saldotak, int days, double amount) {
+        PreparedStatement stmt = null;
         try {
-            stmt = Database.getInstance().getConn().prepareCall("{call saldotak(?,?,?,?)}");
+            stmt = prep("SELECT banky.saldotakValidation(?,?,?,?)");
             stmt.setString(1,accNr);
-            stmt.setInt(2,saldotak);
+            stmt.setDouble(2,saldotak);
             stmt.setInt(3,days);
             stmt.setDouble(4,amount);
-            int action = stmt.executeUpdate();
-            if (action > 0) {
-                return true;
+            ResultSet action = stmt.executeQuery();
+            if (action.next()) {
+                if ( action.getInt(1) == 1) {
+                    return true;
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

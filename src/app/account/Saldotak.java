@@ -50,7 +50,7 @@ public class Saldotak {
         confirmTak.setOnAction(actionEvent -> saldotak());
         reset.setOnAction(actionEvent -> resetSaldotak());
         listener();
-        NewTransaction.addTextLimiter(textFieldTak);
+        NewTransaction.addTextLimiter(textFieldTak, false);
     }
 
     private void listener() {
@@ -67,7 +67,6 @@ public class Saldotak {
     private void currentAmount() {
         try {
             CallableStatement cs = Database.getInstance().getConn().prepareCall("{CALL get_saldotak_current(?,?)}");
-            System.out.println(currentAccountNumber);
             cs.setString(1, currentAccountNumber);
             cs.setString(2, "7");
             ResultSet rs = cs.executeQuery();
