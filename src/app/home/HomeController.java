@@ -2,6 +2,7 @@ package app.home;
 
 import app.Main;
 import app.account.AccountController;
+import app.account.Saldotak;
 import app.account.updateAccount.UpdateAccount;
 import app.db.DB;
 import app.login.LoginController;
@@ -107,6 +108,7 @@ public class HomeController {
 //                asd.clickLoadTransactions(actionEvent, account.getAccountNumber());
             });
             account_buttons.getChildren().add(accountButton);
+            account.loadSaldotak();
         });
         bigAccountBox.setContent(account_buttons);
     }
@@ -134,9 +136,11 @@ public class HomeController {
         MenuItem m1 = new MenuItem("Create new transaction");
         MenuItem m2 = new MenuItem("Create account");
         MenuItem m3 = new MenuItem("Change account");
+        MenuItem m4 = new MenuItem("Saldotak");
         m.getItems().add(m1);
         m.getItems().add(m2);
         m.getItems().add(m3);
+        m.getItems().add(m4);
 
         FXMLLoader loader = new FXMLLoader( getClass().getResource("/app/transaction/newTransaction/newTransaction.fxml") );
         Parent fxmlInstance = loader.load();
@@ -157,6 +161,13 @@ public class HomeController {
             UpdateAccount controller = change.getController();
             controller.loadAccounts();
             borderPane.setCenter(changeInstance);
+        });
+
+        FXMLLoader saldotak = new FXMLLoader( getClass().getResource("/app/account/saldotak.fxml") );
+        Parent saldotakInstance = saldotak.load();
+
+        m4.setOnAction(actionEvent -> {
+            borderPane.setCenter(saldotakInstance);
         });
 
         MenuBar mb = new MenuBar();

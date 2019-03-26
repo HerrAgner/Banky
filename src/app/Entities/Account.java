@@ -1,6 +1,13 @@
 package app.Entities;
 
 import app.annotations.Column;
+import app.db.DB;
+import app.login.LoginController;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
 public class Account {
 
@@ -15,6 +22,16 @@ public class Account {
     private String type;
     @Column ("person_id")
     private String owner;
+
+    private double saldotak = 0;
+
+    public double getSaldotak() {
+        return saldotak;
+    }
+
+    public void setSaldotak(double saldotak) {
+        this.saldotak = saldotak;
+    }
 
     public String getAccountNumber() {
         return accountNumber;
@@ -34,6 +51,19 @@ public class Account {
 
     public String getOwner() {
         return owner;
+    }
+
+    public void loadSaldotak() {
+        PreparedStatement ps = DB.prep("SELECT saldotak FROM accounts WHERE account_number = "+accountNumber+";");
+        try {
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                System.out.println("saldotak: " + rs.getObject(1));
+                saldotak = (double) rs.getObject(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

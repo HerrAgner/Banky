@@ -121,17 +121,16 @@ public abstract class DB {
         }
     }
 
-    public static boolean validateInsert(String name) {
+    public static boolean saldotak(String accNr, int saldotak, int days, double amount) {
+        CallableStatement stmt = null;
         try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        PreparedStatement stmt = prep("SELECT * FROM transactions WHERE transaction_type = ?;");
-        try {
-            stmt.setString(1, name);
-            ResultSet as = stmt.executeQuery();
-            if (as.next()) {
+            stmt = Database.getInstance().getConn().prepareCall("{call saldotak(?,?,?,?)}");
+            stmt.setString(1,accNr);
+            stmt.setInt(2,saldotak);
+            stmt.setInt(3,days);
+            stmt.setDouble(4,amount);
+            int action = stmt.executeUpdate();
+            if (action > 0) {
                 return true;
             }
         } catch (SQLException e) {
@@ -140,27 +139,46 @@ public abstract class DB {
         return false;
     }
 
-    public static List<?> getTransactions(String accountId) {
-        return getTransactions(accountId, 0, 10);
-    }
-
-    public static List<?> getTransactions(String accountId, int offset) {
-        return getTransactions(accountId, offset, offset + 10);
-    }
-
-    public static List<?> getTransactions(String accountId, int offset, int limit) {
-        List<?> result = null;
-        PreparedStatement ps = prep("SELECT * FROM transactions WHERE account_id = ? OR receiver_id = ? ORDER BY transaction_date_time DESC LIMIT " + limit + " OFFSET " + offset);
-        try {
-            ps.setString(1, accountId);
-            ps.setString(2, accountId);
-            result = new ObjectMapper<>(Transaction.class).map(ps.executeQuery());
-        } catch (Exception e) {
-            e.printStackTrace();
+        public static boolean validateInsert (String name){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            PreparedStatement stmt = prep("SELECT * FROM transactions WHERE transaction_type = ?;");
+            try {
+                stmt.setString(1, name);
+                ResultSet as = stmt.executeQuery();
+                if (as.next()) {
+                    return true;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false;
         }
-        return result;
+
+        public static List<?> getTransactions (String accountId){
+            return getTransactions(accountId, 0, 10);
+        }
+
+        public static List<?> getTransactions (String accountId,int offset){
+            return getTransactions(accountId, offset, offset + 10);
+        }
+
+        public static List<?> getTransactions (String accountId,int offset, int limit){
+            List<?> result = null;
+            PreparedStatement ps = prep("SELECT * FROM transactions WHERE account_id = ? OR receiver_id = ? ORDER BY transaction_date_time DESC LIMIT " + limit + " OFFSET " + offset);
+            try {
+                ps.setString(1, accountId);
+                ps.setString(2, accountId);
+                result = new ObjectMapper<>(Transaction.class).map(ps.executeQuery());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
     }
-}
 
 
 
