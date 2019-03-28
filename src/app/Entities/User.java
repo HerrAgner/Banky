@@ -19,6 +19,7 @@ public class User {
     private String lastName;
     private HashMap<Integer, Account> accounts;
     List<Account> accountList;
+    List<Account> giroList;
 
     @Override
     public String toString(){
@@ -36,7 +37,15 @@ public class User {
         accountList = (List<Account>) DB.getAccounts(id);
     }
 
+    public void generateGiroOnUser() {
+        accountList = (List<Account>) DB.getGiro(id);
+    }
+
     public List<Account> getAccountList() {
         return accountList;
+    }
+
+    public List<Account> getGiroList() {
+        return giroList;
     }
 }

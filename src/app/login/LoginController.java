@@ -33,6 +33,7 @@ public class LoginController {
     public void loadUser(){
         user = DB.getMatchingUser(usernameInput.getText(), passwordInput.getText());
         user.generateAccountsOnUser();
+        user.generateGiroOnUser();
         if (user == null) {
             System.out.println("error");
         } else {

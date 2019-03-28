@@ -37,11 +37,23 @@ public abstract class DB {
 
     public static List<?> getAccounts(String owner) {
         List<?> accounts = null;
-        PreparedStatement ps = prep("SELECT * FROM accounts WHERE person_id = ?");
+        PreparedStatement ps = prep("SELECT * FROM accounts WHERE owner_id = ?");
         try {
             ps.setString(1, owner);
             accounts = new ObjectMapper<>(Account.class).map(ps.executeQuery());
         } catch (Exception e) {
+        }
+        return accounts;
+    }
+
+    public static List<?> getGiro(String owner) {
+        List<?> accounts = null;
+        try {
+            CallableStatement cs =  Database.getInstance().getConn().prepareCall("{call get_giro(?)}");
+            cs.setString(1,owner);
+            accounts = new ObjectMapper<>(Account.class).map(cs.executeQuery());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return accounts;
     }

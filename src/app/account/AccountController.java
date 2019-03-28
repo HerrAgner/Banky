@@ -34,7 +34,6 @@ public class AccountController {
 
     @FXML
     private void initialize() {
-        System.out.println("initialize account");
         if (this.account == null) {
             account = LoginController.getUser().getAccountList().get(0);
         }

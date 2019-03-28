@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -50,6 +51,10 @@ public class NewTransaction {
     Label result;
     @FXML
     CheckBox autogiroCheckBox;
+    @FXML
+    CheckBox giroCheckBox;
+    @FXML
+    GridPane transactionGrid;
 
     @FXML
     void initialize() {
@@ -60,6 +65,7 @@ public class NewTransaction {
         fillAccountBox();
         fillDateBox();
         toggleAutogiro();
+        switchToAccountBoxListener();
         addTextLimiter(amount, true);
     }
 
@@ -78,7 +84,7 @@ public class NewTransaction {
                 clearFields();
                 resultText(eventname);
             } else {
-                result.setText("Saldotak is reached. Lower the transaction amount or raise the saldotak.\nCurrent saldotak: "+returnAccount(comboBox.getSelectionModel().getSelectedItem().toString()).getSaldotak());
+                result.setText("Saldotak is reached. Lower the transaction amount or raise the saldotak.\nCurrent saldotak: " + returnAccount(comboBox.getSelectionModel().getSelectedItem().toString()).getSaldotak());
             }
         });
     }
@@ -97,7 +103,8 @@ public class NewTransaction {
             result.setText("Transaction failed");
         }
     }
-    private Account returnAccount(String accountNumber){
+
+    private Account returnAccount(String accountNumber) {
         final Account[] curr = new Account[1];
         LoginController.getUser().getAccountList().forEach(account -> {
             if (account.getAccountNumber().equals(accountNumber)) {
@@ -205,7 +212,7 @@ public class NewTransaction {
     }
 
     @FXML
-    private void confirmButtonListener(){
+    private void confirmButtonListener() {
         if (!toAccount.getText().isEmpty() && !amount.getText().isEmpty() && !messageBox.getText().isEmpty()) {
             transaction();
         } else {
@@ -221,6 +228,34 @@ public class NewTransaction {
 //        dateBoxOccurrence.getSelectionModel().selectFirst();
         datepicker.setValue(LocalDate.now());
     }
+
+    private void switchToAccountBoxListener() {
+        giroCheckBox.selectedProperty().addListener((obv, oldValue, newValue) -> {
+            giroCheckBox.setSelected(newValue);
+            Platform.runLater(() -> {
+                transactionGrid.getChildren().remove(1,1);
+                if (giroCheckBox.isSelected()) {
+                    ComboBox giro = new ComboBox();
+                    giro.setId("giroBox");
+//                    fillGiroBox(giro);
+                    transactionGrid.add(giro,1,1);
+                } else {
+                    TextField toAccount = new TextField();
+                    toAccount.setId("toAccount");
+                    transactionGrid.add(toAccount,1,1);
+
+                }
+            });
+        });
+    }
+
+//    void fillGiroBox(ComboBox cb) {
+//        cb.getItems().removeAll(cb.getItems());
+//        LoginController.getUser().getGiroList().forEach(account -> {
+//            cb.getItems().add(account.getAccountNumber());
+//        });
+//        cb.getSelectionModel().selectFirst();
+//    }
 
 
 }

@@ -15,10 +15,11 @@
 
 <FlowPane orientation="VERTICAL" prefHeight="500.0" rowValignment="TOP" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.transaction.newTransaction.NewTransaction">
    <children>
-      <GridPane prefHeight="200.0" prefWidth="400.0" vgap="20.0">
+      <GridPane fx:id="transactionGrid" prefHeight="200.0" prefWidth="400.0" vgap="20.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -49,6 +50,11 @@
                   <ComboBox fx:id="dateBoxOccurrence" prefWidth="150.0" />
                </children>
             </HBox>
+            <CheckBox fx:id="giroCheckBox" mnemonicParsing="false" text="BG/PG" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+            </CheckBox>
          </children>
          <FlowPane.margin>
             <Insets />

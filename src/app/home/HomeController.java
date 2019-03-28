@@ -75,7 +75,6 @@ public class HomeController {
 
     @FXML
     public void generateAccounts() {
-        VBox accountContainer = new VBox();
         account_buttons.getChildren().clear();
         LoginController.getUser().getAccountList().forEach(account -> {
             Button accountButton = new Button();
@@ -89,7 +88,6 @@ public class HomeController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-//                asd.clickLoadTransactions(actionEvent, account.getAccountNumber());
             });
             account_buttons.getChildren().add(accountButton);
             account.loadSaldotak();
