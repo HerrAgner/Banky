@@ -15,7 +15,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.Instant;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class CreateAccount {
 
@@ -36,9 +39,7 @@ public class CreateAccount {
 
         Label accountName = new Label("Account name: ");
         Label accountType = new Label("Account type: ");
-        Label accountNumberLabel = new Label("Account number: ");
         Button confirm = new Button("Confirm");
-        TextField accNumber = new TextField();
 
         TitledPane pane = new TitledPane();
         TextField accName = new TextField();
@@ -46,15 +47,19 @@ public class CreateAccount {
 
         confirm.setOnAction(actionEvent -> {
             Label label = (Label) type.getSelectionModel().getSelectedItem();
-            DB.createAccount(accNumber.getText(), accName.getText(), label.getText());
+            String account = generateAccountNumber();
+            if (accName.getText().isEmpty()) {
+                accName.setText(account);
+            }
+            DB.createAccount(account, accName.getText(), label.getText());
             Button accountButton = new Button();
             LoginController.getUser().generateAccountsOnUser();
 
             VBox accountBox = (VBox) Main.stage.getScene().lookup("#account_buttons");
-            String id = String.valueOf(accNumber.getText());
+            String id = account;
             accountButton.setId(id);
             accountButton.setMinWidth(200);
-            accountButton.setText(String.format("%s %s %s", accName.getText(), accNumber.getText(), label.getText()));
+            accountButton.setText(String.format("%s %s %s", accName.getText(), account, label.getText()));
 
             BorderPane borderPane = (BorderPane) Main.stage.getScene().lookup("#borderPane");
 
@@ -64,7 +69,7 @@ public class CreateAccount {
                     Parent fxmlInstance = loader.load();
                     borderPane.setCenter(fxmlInstance);
                     AccountController controller = loader.getController();
-                    controller.setAccount(accNumber.getText());
+                    controller.setAccount(account);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -79,15 +84,27 @@ public class CreateAccount {
         grid.add(accName, 1, 0);
         grid.add(accountType, 0, 1);
         grid.add(type, 1, 1);
-        grid.add(accountNumberLabel, 0, 2);
-        grid.add(accNumber, 1, 2);
         grid.add(confirm,2,2);
         pane.setContent(grid);
 
         create_account.getChildren().add(grid);
     }
 
-
+    private String generateAccountNumber() {
+        String tempAcc = String.valueOf(ThreadLocalRandom.current().nextInt(100000000, 999999999 + 1));
+        PreparedStatement ps = DB.prep("SELECT * FROM accounts WHERE account_number = ?");
+        try {
+            ps.setString(1, tempAcc);
+            if (ps.execute()) {
+                return tempAcc;
+            } else {
+                generateAccountNumber();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
 }
