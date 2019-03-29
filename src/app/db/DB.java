@@ -161,13 +161,18 @@ public abstract class DB {
         return false;
     }
 
-    public static boolean validateInsert(String name) {
+    public static boolean validateInsert(String name, boolean recurring) {
         try {
-            Thread.sleep(100);
+            Thread.sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        PreparedStatement stmt = prep("SELECT * FROM transactions WHERE transaction_type = ?;");
+        PreparedStatement stmt;
+        if (recurring) {
+            stmt = prep("SELECT EVENT_NAME FROM INFORMATION_SCHEMA.EVENTS WHERE EVENT_NAME= ?;");
+        } else {
+            stmt = prep("SELECT * FROM transactions WHERE transaction_type = ?;");
+        }
         try {
             stmt.setString(1, name);
             ResultSet as = stmt.executeQuery();

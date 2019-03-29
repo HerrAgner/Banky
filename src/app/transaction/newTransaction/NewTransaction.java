@@ -78,7 +78,6 @@ public class NewTransaction {
     private String accountOrGiro() {
         if (giroCheckBox.isSelected()) {
             for (Account account : LoginController.getUser().getGiroList()) {
-                System.out.println(account.getCompany());
                 if (account.getCompany().equals(giroBox.getSelectionModel().getSelectedItem())) {
                     return account.getAccountNumber();
                 }
@@ -90,7 +89,7 @@ public class NewTransaction {
     }
 
     private void resultText(String name) {
-        if (DB.validateInsert(name)) {
+        if (DB.validateInsert(name, autogiroCheckBox.isSelected())) {
             result.setTextFill(Color.GREEN);
             result.setText("NEW TRANSACTION MADE \n" +
                     "From account: " + comboBox.getSelectionModel().getSelectedItem().toString() +
@@ -251,7 +250,7 @@ public class NewTransaction {
         });
     }
 
-    void fillGiroBox(ComboBox cb) {
+    public static void fillGiroBox(ComboBox cb) {
         cb.getItems().removeAll(cb.getItems());
         LoginController.getUser().getGiroList().forEach(account -> {
             cb.getItems().add(account.getCompany());

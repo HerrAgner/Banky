@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.time.Instant;
 
 public class LoginController {
 
@@ -28,6 +29,7 @@ public class LoginController {
     @FXML
     private void initialize() {
 //        System.out.println("initialize login");
+        System.out.println(Instant.now().toEpochMilli());
     }
 
     public void loadUser(){

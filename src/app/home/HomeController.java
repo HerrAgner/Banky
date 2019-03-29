@@ -118,11 +118,8 @@ public class HomeController {
         MenuItem m2 = new MenuItem("Create account");
         MenuItem m3 = new MenuItem("Change account");
         MenuItem m4 = new MenuItem("Saldotak");
-        m.getItems().add(m1);
-        m.getItems().add(m2);
-        m.getItems().add(m3);
-        m.getItems().add(m4);
-
+        MenuItem m5 = new MenuItem("Config PG/BG");
+        m.getItems().addAll(m1,m2,m3,m4,m5);
         FXMLLoader loader = new FXMLLoader( getClass().getResource("/app/transaction/newTransaction/newTransaction.fxml") );
         Parent fxmlInstance = loader.load();
         m1.setOnAction(actionEvent -> {
@@ -149,6 +146,13 @@ public class HomeController {
 
         m4.setOnAction(actionEvent -> {
             borderPane.setCenter(saldotakInstance);
+        });
+
+        FXMLLoader giro = new FXMLLoader( getClass().getResource("/app/account/AddGiro.fxml") );
+        Parent giroInstace = giro.load();
+
+        m5.setOnAction(actionEvent -> {
+            borderPane.setCenter(giroInstace);
         });
 
         MenuBar mb = new MenuBar();
