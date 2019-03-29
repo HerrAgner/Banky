@@ -38,7 +38,7 @@ public class User {
     }
 
     public void generateGiroOnUser() {
-        accountList = (List<Account>) DB.getGiro(id);
+        giroList = (List<Account>) DB.getGiro(id);
     }
 
     public List<Account> getAccountList() {

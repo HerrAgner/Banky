@@ -2,7 +2,6 @@ package app.transaction;
 
 
 import app.Entities.Transaction;
-import app.login.LoginController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;

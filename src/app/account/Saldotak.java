@@ -1,6 +1,5 @@
 package app.account;
 
-import app.Entities.Account;
 import app.db.DB;
 import app.db.Database;
 import app.login.LoginController;
@@ -58,8 +57,8 @@ public class Saldotak {
             account.loadSaldotak();
             if (account.getAccountNumber().equals(newValue)) {
                 currentAccountNumber = account.getAccountNumber();
-                setLabelText(String.valueOf(account.getSaldotak()));
                 currentAmount();
+                setLabelText(account.getSaldotak());
             }
         }));
     }
@@ -87,13 +86,13 @@ public class Saldotak {
         });
     }
 
-    private void setLabelText(String tak) {
-        if (tak.equals("0.0")) {
+    private void setLabelText(double tak) {
+        if (tak == 0.0) {
             amount_left.setText("N/A");
             currentSaldoTak.setText("No saldotak.");
         } else {
-            amount_left.setText(String.valueOf(Double.parseDouble(tak) - currentAmount));
-            currentSaldoTak.setText(tak);
+            amount_left.setText(String.valueOf(tak - currentAmount));
+            currentSaldoTak.setText(String.valueOf(tak));
         }
     }
 
@@ -103,7 +102,8 @@ public class Saldotak {
             LoginController.getUser().getAccountList().forEach(account -> {
                 if (account.getAccountNumber().equals(comboBoxTak.getSelectionModel().getSelectedItem())) {
                     account.setSaldotak(Double.parseDouble(textFieldTak.getText()));
-                    setLabelText(String.valueOf(account.getSaldotak()));
+                    textFieldTak.clear();
+                    setLabelText(account.getSaldotak());
                     PreparedStatement ps = DB.prep("UPDATE accounts SET saldotak = " +account.getSaldotak() + " WHERE account_number = " + account.getAccountNumber() + ";");
                     try {
                         ps.execute();

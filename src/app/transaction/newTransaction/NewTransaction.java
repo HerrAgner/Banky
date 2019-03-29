@@ -2,32 +2,16 @@ package app.transaction.newTransaction;
 
 import app.Entities.Account;
 import app.db.DB;
-import app.db.Database;
 import app.login.LoginController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.sql.CallableStatement;
-import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class NewTransaction {
@@ -55,6 +39,8 @@ public class NewTransaction {
     CheckBox giroCheckBox;
     @FXML
     GridPane transactionGrid;
+    @FXML
+    ComboBox giroBox = new ComboBox();
 
     @FXML
     void initialize() {
@@ -78,7 +64,7 @@ public class NewTransaction {
                 DB.scheduledTransaction(eventname,
                         convertBoxToTime(),
                         comboBox.getSelectionModel().getSelectedItem().toString(),
-                        convertAccountNumber(),
+                        accountOrGiro(),
                         Double.parseDouble(amount.getText()),
                         messageBox.getText());
                 clearFields();
@@ -87,6 +73,20 @@ public class NewTransaction {
                 result.setText("Saldotak is reached. Lower the transaction amount or raise the saldotak.\nCurrent saldotak: " + returnAccount(comboBox.getSelectionModel().getSelectedItem().toString()).getSaldotak());
             }
         });
+    }
+
+    private String accountOrGiro() {
+        if (giroCheckBox.isSelected()) {
+            for (Account account : LoginController.getUser().getGiroList()) {
+                System.out.println(account.getCompany());
+                if (account.getCompany().equals(giroBox.getSelectionModel().getSelectedItem())) {
+                    return account.getAccountNumber();
+                }
+            }
+        } else {
+           return convertAccountNumber();
+        }
+        return null;
     }
 
     private void resultText(String name) {
@@ -213,7 +213,13 @@ public class NewTransaction {
 
     @FXML
     private void confirmButtonListener() {
-        if (!toAccount.getText().isEmpty() && !amount.getText().isEmpty() && !messageBox.getText().isEmpty()) {
+        boolean accountNumberNotEmpty;
+        if (giroCheckBox.isSelected()) {
+            accountNumberNotEmpty = true;
+        } else {
+            accountNumberNotEmpty = !toAccount.getText().isEmpty();
+        }
+        if (accountNumberNotEmpty && !amount.getText().isEmpty() && !messageBox.getText().isEmpty()) {
             transaction();
         } else {
             result.setText("Please fill in all fields");
@@ -233,29 +239,25 @@ public class NewTransaction {
         giroCheckBox.selectedProperty().addListener((obv, oldValue, newValue) -> {
             giroCheckBox.setSelected(newValue);
             Platform.runLater(() -> {
-                transactionGrid.getChildren().remove(1,1);
                 if (giroCheckBox.isSelected()) {
-                    ComboBox giro = new ComboBox();
-                    giro.setId("giroBox");
-//                    fillGiroBox(giro);
-                    transactionGrid.add(giro,1,1);
+                    transactionGrid.getChildren().remove(toAccount);
+                    fillGiroBox(giroBox);
+                    transactionGrid.add(giroBox, 1, 1);
                 } else {
-                    TextField toAccount = new TextField();
-                    toAccount.setId("toAccount");
-                    transactionGrid.add(toAccount,1,1);
-
+                    transactionGrid.getChildren().remove(giroBox);
+                    transactionGrid.add(toAccount, 1, 1);
                 }
             });
         });
     }
 
-//    void fillGiroBox(ComboBox cb) {
-//        cb.getItems().removeAll(cb.getItems());
-//        LoginController.getUser().getGiroList().forEach(account -> {
-//            cb.getItems().add(account.getAccountNumber());
-//        });
-//        cb.getSelectionModel().selectFirst();
-//    }
+    void fillGiroBox(ComboBox cb) {
+        cb.getItems().removeAll(cb.getItems());
+        LoginController.getUser().getGiroList().forEach(account -> {
+            cb.getItems().add(account.getCompany());
+        });
+        cb.getSelectionModel().selectFirst();
+    }
 
 
 }

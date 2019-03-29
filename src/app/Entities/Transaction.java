@@ -39,10 +39,7 @@ public class Transaction {
     public String getReceiver() {
         return receiver;
     }
-
-    public Transaction() {
-
-    }
+    
 
     @Override
     public String toString() {

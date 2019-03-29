@@ -4,13 +4,7 @@ import app.Entities.Account;
 import app.Entities.Transaction;
 import app.Entities.User;
 import app.login.LoginController;
-import javafx.application.Platform;
-import javafx.scene.control.DatePicker;
-
 import java.sql.*;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -46,11 +40,25 @@ public abstract class DB {
         return accounts;
     }
 
+    public static String getCompanyName(String acc_nr) {
+        try {
+            CallableStatement cs = Database.getInstance().getConn().prepareCall("{call get_company_name(?)}");
+            cs.setString(1, acc_nr);
+            ResultSet action = cs.executeQuery();
+            if (action.next()) {
+                return action.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static List<?> getGiro(String owner) {
         List<?> accounts = null;
         try {
-            CallableStatement cs =  Database.getInstance().getConn().prepareCall("{call get_giro(?)}");
-            cs.setString(1,owner);
+            CallableStatement cs = Database.getInstance().getConn().prepareCall("{call get_giro(?)}");
+            cs.setString(1, owner);
             accounts = new ObjectMapper<>(Account.class).map(cs.executeQuery());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -137,13 +145,13 @@ public abstract class DB {
         PreparedStatement stmt = null;
         try {
             stmt = prep("SELECT banky.saldotakValidation(?,?,?,?)");
-            stmt.setString(1,accNr);
-            stmt.setDouble(2,saldotak);
-            stmt.setInt(3,days);
-            stmt.setDouble(4,amount);
+            stmt.setString(1, accNr);
+            stmt.setDouble(2, saldotak);
+            stmt.setInt(3, days);
+            stmt.setDouble(4, amount);
             ResultSet action = stmt.executeQuery();
             if (action.next()) {
-                if ( action.getInt(1) == 1) {
+                if (action.getInt(1) == 1) {
                     return true;
                 }
             }
@@ -153,46 +161,46 @@ public abstract class DB {
         return false;
     }
 
-        public static boolean validateInsert (String name){
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+    public static boolean validateInsert(String name) {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        PreparedStatement stmt = prep("SELECT * FROM transactions WHERE transaction_type = ?;");
+        try {
+            stmt.setString(1, name);
+            ResultSet as = stmt.executeQuery();
+            if (as.next()) {
+                return true;
             }
-            PreparedStatement stmt = prep("SELECT * FROM transactions WHERE transaction_type = ?;");
-            try {
-                stmt.setString(1, name);
-                ResultSet as = stmt.executeQuery();
-                if (as.next()) {
-                    return true;
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        public static List<?> getTransactions (String accountId){
-            return getTransactions(accountId, 0, 10);
-        }
-
-        public static List<?> getTransactions (String accountId,int offset){
-            return getTransactions(accountId, offset, offset + 10);
-        }
-
-        public static List<?> getTransactions (String accountId,int offset, int limit){
-            List<?> result = null;
-            PreparedStatement ps = prep("SELECT * FROM transactions WHERE account_id = ? OR receiver_id = ? ORDER BY transaction_date_time DESC LIMIT " + limit + " OFFSET " + offset);
-            try {
-                ps.setString(1, accountId);
-                ps.setString(2, accountId);
-                result = new ObjectMapper<>(Transaction.class).map(ps.executeQuery());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return result;
-        }
+        return false;
     }
+
+    public static List<?> getTransactions(String accountId) {
+        return getTransactions(accountId, 0, 10);
+    }
+
+    public static List<?> getTransactions(String accountId, int offset) {
+        return getTransactions(accountId, offset, offset + 10);
+    }
+
+    public static List<?> getTransactions(String accountId, int offset, int limit) {
+        List<?> result = null;
+        PreparedStatement ps = prep("SELECT * FROM transactions WHERE account_id = ? OR receiver_id = ? ORDER BY transaction_date_time DESC LIMIT " + limit + " OFFSET " + offset);
+        try {
+            ps.setString(1, accountId);
+            ps.setString(2, accountId);
+            result = new ObjectMapper<>(Transaction.class).map(ps.executeQuery());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+}
 
 
 

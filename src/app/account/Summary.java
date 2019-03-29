@@ -2,12 +2,10 @@ package app.account;
 
 import app.Entities.Account;
 import app.Entities.Transaction;
-import app.db.DB;
 import app.db.Database;
 import app.db.ObjectMapper;
 import app.login.LoginController;
 import app.transaction.TransactionController;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,8 +16,6 @@ import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -57,10 +53,11 @@ public class Summary {
         String personnummber = LoginController.getUser().getId();
         System.out.println(personnummber);
         try {
-            stmt = Database.getInstance().getConn().prepareCall("call banky.all_transactions(?,?);");
+            stmt = Database.getInstance().getConn().prepareCall("{call all_transactions(?,?)}");
             stmt.setString(1, personnummber);
             stmt.setInt(2, 5);
             transactions = new ObjectMapper<>(Transaction.class).map(stmt.executeQuery());
+            System.out.println(transactions.get(0));
         } catch (Exception e) {
         }
         addSpaces();

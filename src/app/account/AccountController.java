@@ -4,11 +4,9 @@ package app.account;
 import app.Entities.Account;
 import app.Entities.Transaction;
 import app.db.DB;
-import app.home.HomeController;
 import app.login.LoginController;
 import app.transaction.TransactionController;
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 import java.io.IOException;
@@ -52,6 +49,7 @@ public class AccountController {
     @FXML
     public void loadAllTransactions(){
         transactions = (List<Transaction>) DB.getTransactions(account.getAccountNumber(), 0, Integer.MAX_VALUE);
+        System.out.println(transactions.get(0));
         displayTransaction(transactions);
     }
     void displayTransaction(List<Transaction> transactions) {
