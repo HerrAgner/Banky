@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.Instant;
 
 public class LoginController {
@@ -28,8 +30,7 @@ public class LoginController {
 
     @FXML
     private void initialize() {
-//        System.out.println("initialize login");
-        System.out.println(Instant.now().toEpochMilli());
+        globalEventOn();
     }
 
     public void loadUser(){
@@ -40,6 +41,15 @@ public class LoginController {
             System.out.println("error");
         } else {
             goToHome();
+        }
+    }
+
+    private void globalEventOn() {
+        PreparedStatement ps = DB.prep("SET GLOBAL event_scheduler = ON;");
+        try {
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

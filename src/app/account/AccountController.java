@@ -49,7 +49,6 @@ public class AccountController {
     @FXML
     public void loadAllTransactions(){
         transactions = (List<Transaction>) DB.getTransactions(account.getAccountNumber(), 0, Integer.MAX_VALUE);
-        System.out.println(transactions.get(0));
         displayTransaction(transactions);
     }
     void displayTransaction(List<Transaction> transactions) {
