@@ -89,6 +89,7 @@ public class HomeController {
                 }
             });
             account_buttons.getChildren().add(accountButton);
+
             account.loadSaldotak();
         });
         bigAccountBox.setContent(account_buttons);
@@ -112,48 +113,27 @@ public class HomeController {
         }
     }
 
-    private void addMenu() throws IOException {
+    private void addMenu(){
         Menu m = new Menu("Menu");
         MenuItem m1 = new MenuItem("Create new transaction");
         MenuItem m2 = new MenuItem("Create account");
         MenuItem m3 = new MenuItem("Change account");
         MenuItem m4 = new MenuItem("Saldotak");
         MenuItem m5 = new MenuItem("Config PG/BG");
-        m.getItems().addAll(m1,m2,m3,m4,m5);
-        FXMLLoader loader = new FXMLLoader( getClass().getResource("/app/transaction/newTransaction/newTransaction.fxml") );
-        Parent fxmlInstance = loader.load();
-        m1.setOnAction(actionEvent -> {
-            borderPane.setCenter(fxmlInstance);
-        });
+        MenuItem m6 = new MenuItem("Show Scheduled events");
+        m.getItems().addAll(m1,m2,m3,m4,m5,m6);
 
-        FXMLLoader createAccount = new FXMLLoader( getClass().getResource( "/app/account/createAccount.fxml" ) );
-        Parent createInstance = createAccount.load();
-        m2.setOnAction(actionEvent -> {
-            borderPane.setCenter(createInstance);
-        });
-
+        m1.setOnAction(actionEvent -> switchScene("newTransaction"));
+        m2.setOnAction(actionEvent -> switchScene("createAccount"));
         FXMLLoader change = new FXMLLoader( getClass().getResource("/app/account/updateAccount/updateAccount.fxml") );
-        Parent changeInstance = change.load();
-
         m3.setOnAction(actionEvent -> {
             UpdateAccount controller = change.getController();
             controller.loadAccounts();
-            borderPane.setCenter(changeInstance);
+            switchScene("updateAccount");
         });
-
-        FXMLLoader saldotak = new FXMLLoader( getClass().getResource("/app/account/saldotak.fxml") );
-        Parent saldotakInstance = saldotak.load();
-
-        m4.setOnAction(actionEvent -> {
-            borderPane.setCenter(saldotakInstance);
-        });
-
-        FXMLLoader giro = new FXMLLoader( getClass().getResource("/app/account/AddGiro.fxml") );
-        Parent giroInstace = giro.load();
-
-        m5.setOnAction(actionEvent -> {
-            borderPane.setCenter(giroInstace);
-        });
+        m4.setOnAction(actionEvent -> switchScene("saldotak"));
+        m5.setOnAction(actionEvent -> switchScene("AddGiro"));
+        m6.setOnAction(actionEvent -> switchScene("ScheduledEvents"));
 
         MenuBar mb = new MenuBar();
         mb.getMenus().add(m);

@@ -25,35 +25,6 @@
     -fx-background: rgb(20,20,20);
 }
 
-#channel_message{
-    -fx-text-fill: rgb(255, 255, 255);
-}
-
-#join_message{
-    -fx-text-fill: rgb(0,200,0);
-}
-
-#leave_channel{
-    -fx-text-fill: rgb(133, 206, 250);
-
-}
-#warning, #error{
-        -fx-text-fill: rgb(255,20,60);
-}
-
-#disconnect_message{
-        -fx-text-fill: rgb(147,149,149);
-}
-
-#whisper_message{
-    -fx-text-fill: rgb(238,130,238);
-
-}
-
-#nickname_message{
-    -fx-text-fill: rgb(255, 215, 0);
-}
-
 .text-input {
     -fx-prompt-text-fill: derive(-fx-control-inner-background, +50%);
 }

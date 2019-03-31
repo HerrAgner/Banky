@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.account.ScheduledEventsController">
+   <center>
+      <ScrollPane maxHeight="500.0" minHeight="500.0" prefWidth="800.0" BorderPane.alignment="TOP_LEFT">
+         <content>
+            <VBox fx:id="ScheduledEvents" />
+         </content>
+      </ScrollPane>
+   </center>
+   <top>
+      <HBox fx:id="fx_button" maxHeight="50.0" BorderPane.alignment="CENTER" />
+   </top>
+</BorderPane>

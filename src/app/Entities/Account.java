@@ -63,6 +63,8 @@ public class Account {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 saldotak = (double) rs.getObject(1);
+            } else{
+                System.out.println("no saldotak exists");;
             }
         } catch (SQLException e) {
             e.printStackTrace();
