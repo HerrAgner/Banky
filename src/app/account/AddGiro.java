@@ -5,33 +5,22 @@ import app.db.DB;
 import app.db.Database;
 import app.login.LoginController;
 import app.transaction.newTransaction.NewTransaction;
-import com.mysql.cj.log.Log;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
 import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AddGiro {
-
-    @FXML
-    Button addGiroButton;
-    @FXML
-    Button fetchName;
-    @FXML
-    TextField textFieldGiro;
-    @FXML
-    Label giroName;
-    @FXML
-    ComboBox giroBox;
-    @FXML
-    Button removeGiro;
-
+    @FXML Button addGiroButton;
+    @FXML Button fetchName;
+    @FXML TextField textFieldGiro;
+    @FXML Label giroName;
+    @FXML ComboBox giroBox;
+    @FXML Button removeGiro;
     Boolean isAccount;
     String currentAccount;
 

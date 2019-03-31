@@ -23,10 +23,9 @@ public abstract class DB {
             ps.setString(1, username);
             ps.setString(2, password);
             result = (User) new ObjectMapper<>(User.class).mapOne(ps.executeQuery());
-//            System.out.println(result);
         } catch (Exception e) {
         }
-        return result; // return User;
+        return result;
     }
 
     public static List<?> getAccounts(String owner) {
@@ -38,20 +37,6 @@ public abstract class DB {
         } catch (Exception e) {
         }
         return accounts;
-    }
-
-    public static String getCompanyName(String acc_nr) {
-        try {
-            CallableStatement cs = Database.getInstance().getConn().prepareCall("{call get_company_name(?)}");
-            cs.setString(1, acc_nr);
-            ResultSet action = cs.executeQuery();
-            if (action.next()) {
-                return action.getString(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public static List<?> getGiro(String owner) {

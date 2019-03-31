@@ -20,13 +20,8 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class Summary {
-
-    @FXML
-    Label sum_accounts;
-
-    @FXML
-    ListView summary;
-
+    @FXML Label sum_accounts;
+    @FXML ListView summary;
     List<Account> summaryOfAccounts = (List<Account>) getSummary();
 
     @FXML
@@ -44,7 +39,6 @@ public class Summary {
             }
         });
         addLastTransactions();
-
     }
 
     private void addLastTransactions() {
@@ -66,12 +60,9 @@ public class Summary {
             Parent fxmlInstance = null;
             try {
                 fxmlInstance = loader.load();
-
             Scene scene = new Scene(fxmlInstance);
-
             TransactionController controller = loader.getController();
             controller.setTransaction((Transaction) o);
-
             summary.getItems().add(scene.getRoot());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -108,4 +99,3 @@ public class Summary {
         return accounts;
     }
 }
-

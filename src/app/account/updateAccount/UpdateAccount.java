@@ -10,10 +10,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 public class UpdateAccount {
-    @FXML
-    Accordion accordion;
-
-
+    @FXML Accordion accordion;
+    
     @FXML
     void initialize() {
     }

@@ -1,6 +1,5 @@
 package app.home;
 
-import app.Main;
 import app.account.AccountController;
 import app.account.updateAccount.UpdateAccount;
 import app.db.DB;
@@ -11,37 +10,21 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class HomeController {
-    LoginController login = new LoginController();
+    @FXML public VBox account_box;
+    @FXML VBox account_buttons;
+    @FXML TitledPane bigAccountBox;
+    @FXML VBox borderPaneMid;
+    @FXML Button summary_button;
+    @FXML Button card_payment;
+    @FXML BorderPane borderPane;
 
     @FXML
-    public VBox account_box;
-
-    @FXML
-    VBox account_buttons;
-
-    @FXML
-    TitledPane bigAccountBox;
-
-    @FXML
-    VBox borderPaneMid;
-
-    @FXML
-    Button summary_button;
-
-    @FXML
-    Button card_payment;
-
-    @FXML
-    BorderPane borderPane;
-
-    @FXML
-    void initialize() throws IOException {
+    void initialize(){
         addMenu();
         generateAccounts();
     }
@@ -53,8 +36,6 @@ public class HomeController {
         borderPane.setCenter(fxmlInstance);
             AccountController controller = loader.getController();
             controller.setAccount(id);
-
-//        Main.stage.show();
     }
 
     @FXML
@@ -98,7 +79,6 @@ public class HomeController {
     @FXML
     void addSummaryButton() {
             switchScene("/app/account/summary.fxml");
-
     }
 
     void switchScene(String pathname) {
@@ -106,8 +86,6 @@ public class HomeController {
             FXMLLoader loader = new FXMLLoader( getClass().getResource( pathname) );
             Parent fxmlInstance = loader.load();
             borderPane.setCenter(fxmlInstance);
-
-            Main.stage.show();
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -140,5 +118,4 @@ public class HomeController {
         VBox vb = new VBox(mb);
         borderPane.setTop(vb);
     }
-
 }

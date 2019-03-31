@@ -7,24 +7,16 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import static javafx.scene.paint.Color.rgb;
 
 public class ScheduledEventsController {
-
-    @FXML
-    VBox ScheduledEvents;
-
-    @FXML
-    HBox fx_button;
+    @FXML VBox ScheduledEvents;
+    @FXML HBox fx_button;
     int count = 0;
 
     @FXML

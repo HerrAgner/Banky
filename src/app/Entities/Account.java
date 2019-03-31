@@ -2,14 +2,11 @@ package app.Entities;
 
 import app.annotations.Column;
 import app.db.DB;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Account {
-
-
     @Column("account_number")
     private String accountNumber;
     @Column("balance")
@@ -55,7 +52,6 @@ public class Account {
     public String getCompany() {
         return company;
     }
-
 
     public void loadSaldotak() {
         PreparedStatement ps = DB.prep("SELECT saldotak FROM accounts WHERE account_number = "+accountNumber+";");

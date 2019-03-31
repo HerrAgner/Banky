@@ -1,7 +1,6 @@
 package app.db;
 
 import app.annotations.Column;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
@@ -9,7 +8,6 @@ import java.sql.ResultSetMetaData;
 import java.util.*;
 
 public class ObjectMapper<T> {
-
     private Class clazz;
     private Map<String, Field> fields = new HashMap<>();
 
@@ -63,6 +61,7 @@ public class ObjectMapper<T> {
     public T mapOne(ResultSet rs) {
         return this.map(this.resultSetToHashMap(rs));
     }
+
     public List<T> map(ResultSet rs) {
         return this.map(this.resultSetToArrayList(rs));
     }
@@ -79,7 +78,6 @@ public class ObjectMapper<T> {
                 }
             }
         } catch (Exception ex) { ex.printStackTrace(); }
-
         return row;
     }
 
@@ -96,7 +94,6 @@ public class ObjectMapper<T> {
                 list.add(row);
             }
         } catch (Exception ex) { ex.printStackTrace(); }
-
         return list;
     }
 

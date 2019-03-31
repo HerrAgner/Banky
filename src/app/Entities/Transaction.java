@@ -1,8 +1,6 @@
 package app.Entities;
 
-
 import app.annotations.Column;
-
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -22,15 +20,16 @@ public class Transaction {
     private Timestamp date;
 
     public String getMessage() { return message; }
+
     public float getAmount() { return amount; }
 
     public ZonedDateTime getDate() {
         return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.of("Europe/Berlin"));
     }
+
     public String getDateAsString(){
         return getDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace('T', ' ');
     }
-
 
     public String getAccount_id() {
         return account_id;
@@ -39,7 +38,6 @@ public class Transaction {
     public String getReceiver() {
         return receiver;
     }
-    
 
     @Override
     public String toString() {

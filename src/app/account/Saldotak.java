@@ -11,36 +11,20 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Saldotak {
-
-    @FXML
-    public VBox saldotakVBox;
-
-    @FXML
-    ComboBox comboBoxTak;
-
-    @FXML
-    TextField textFieldTak;
-
-    @FXML
-    Button confirmTak;
-
-    @FXML
-    Label currentSaldoTak;
-    @FXML
-    Label current_amount;
-    @FXML
-    Label amount_left;
-
-    @FXML
-    Button reset;
-
+    @FXML public VBox saldotakVBox;
+    @FXML ComboBox comboBoxTak;
+    @FXML TextField textFieldTak;
+    @FXML Button confirmTak;
+    @FXML Label currentSaldoTak;
+    @FXML Label current_amount;
+    @FXML Label amount_left;
+    @FXML Button reset;
     String currentAccountNumber = "";
     double currentAmount;
 

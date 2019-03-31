@@ -15,11 +15,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         stage = primaryStage;
-        // First FXML that should be displayed is the Login
-        // after successful login you should get transferred to Home
         Parent root = FXMLLoader.load(getClass().getResource("/app/login/login.fxml"));
-
-
 
         primaryStage.setTitle("Banky");
         primaryStage.setScene(new Scene(root));
@@ -27,8 +23,6 @@ public class Main extends Application {
         primaryStage.getScene().getStylesheets().add(darkmodeCss);
         primaryStage.show();
     }
-
-
     public static void main(String[] args) {
         launch(args);
     }

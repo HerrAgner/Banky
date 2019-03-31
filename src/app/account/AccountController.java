@@ -16,17 +16,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
-
 import java.io.IOException;
 import java.util.List;
 
 public class AccountController {
     Account account = null;
-    @FXML
-    ListView transactionBox;
-    @FXML
-    Button loadAll;
-
+    @FXML ListView transactionBox;
+    @FXML Button loadAll;
     List<Transaction> transactions;
 
     @FXML

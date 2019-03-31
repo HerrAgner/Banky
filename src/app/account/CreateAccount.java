@@ -1,9 +1,7 @@
 package app.account;
 
-import app.Entities.Account;
 import app.Main;
 import app.db.DB;
-import app.home.HomeController;
 import app.login.LoginController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,20 +11,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class CreateAccount {
-
-    @FXML
-    VBox create_account;
-
-    @FXML
-    void initialize() {
+    @FXML VBox create_account;
+    @FXML void initialize() {
         createAccount();
     }
 
@@ -75,7 +67,6 @@ public class CreateAccount {
                 }
             });
             accountBox.getChildren().add(accountButton);
-//            LoginController.getUser().getAccountList().add(new Account());
         });
 
         grid.setVgap(4);
@@ -105,6 +96,4 @@ public class CreateAccount {
         }
         return null;
     }
-
-
 }

@@ -15,32 +15,19 @@ import java.time.LocalTime;
 import java.util.regex.Pattern;
 
 public class NewTransaction {
-    @FXML
-    ComboBox comboBox;
-    @FXML
-    TextField toAccount;
-    @FXML
-    TextField amount;
-    @FXML
-    Button confirm;
-    @FXML
-    TextField messageBox;
-    @FXML
-    DatePicker datepicker;
-    @FXML
-    ComboBox dateBoxNumber;
-    @FXML
-    ComboBox dateBoxOccurrence;
-    @FXML
-    Label result;
-    @FXML
-    CheckBox autogiroCheckBox;
-    @FXML
-    CheckBox giroCheckBox;
-    @FXML
-    GridPane transactionGrid;
-    @FXML
-    ComboBox giroBox = new ComboBox();
+    @FXML ComboBox comboBox;
+    @FXML TextField toAccount;
+    @FXML TextField amount;
+    @FXML Button confirm;
+    @FXML TextField messageBox;
+    @FXML DatePicker datepicker;
+    @FXML ComboBox dateBoxNumber;
+    @FXML ComboBox dateBoxOccurrence;
+    @FXML Label result;
+    @FXML CheckBox autogiroCheckBox;
+    @FXML CheckBox giroCheckBox;
+    @FXML GridPane transactionGrid;
+    @FXML ComboBox giroBox = new ComboBox();
 
     @FXML
     void initialize() {
@@ -54,7 +41,6 @@ public class NewTransaction {
         switchToAccountBoxListener();
         addTextLimiter(amount, true);
     }
-
 
     @FXML
     void transaction() {
@@ -204,8 +190,6 @@ public class NewTransaction {
             } else {
                 text = newValue.replaceAll("[^\\d]", "");
             }
-//                    .replaceAll("[ ]{2,}", " ");
-//            text = text.replace("  "," ");
             tf.setText(text);
         });
     }
@@ -229,8 +213,6 @@ public class NewTransaction {
         toAccount.clear();
         amount.clear();
         messageBox.clear();
-//        dateBoxNumber.getSelectionModel().selectFirst();
-//        dateBoxOccurrence.getSelectionModel().selectFirst();
         datepicker.setValue(LocalDate.now());
     }
 
@@ -257,6 +239,4 @@ public class NewTransaction {
         });
         cb.getSelectionModel().selectFirst();
     }
-
-
 }
