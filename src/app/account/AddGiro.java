@@ -10,17 +10,24 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AddGiro {
-    @FXML Button addGiroButton;
-    @FXML Button fetchName;
-    @FXML TextField textFieldGiro;
-    @FXML Label giroName;
-    @FXML ComboBox giroBox;
-    @FXML Button removeGiro;
+    @FXML
+    Button addGiroButton;
+    @FXML
+    Button fetchName;
+    @FXML
+    TextField textFieldGiro;
+    @FXML
+    Label giroName;
+    @FXML
+    ComboBox giroBox;
+    @FXML
+    Button removeGiro;
     Boolean isAccount;
     String currentAccount;
 
@@ -34,8 +41,9 @@ public class AddGiro {
 
     private void fetchName() {
         try {
+            String accNumber = textFieldGiro.getText().replaceAll("\\D", "");
             CallableStatement cs = Database.getInstance().getConn().prepareCall("{call get_company_name(?)}");
-            cs.setString(1, textFieldGiro.getText());
+            cs.setString(1, accNumber);
             ResultSet rs = cs.executeQuery();
             if (rs.next()) {
                 giroName.setText(rs.getString(1));
