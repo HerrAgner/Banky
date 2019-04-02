@@ -24,7 +24,7 @@ public class HomeController {
     @FXML BorderPane borderPane;
 
     @FXML
-    void initialize(){
+    void initialize() throws IOException {
         addMenu();
         generateAccounts();
     }
@@ -91,7 +91,7 @@ public class HomeController {
         }
     }
 
-    private void addMenu(){
+    private void addMenu() throws IOException {
         Menu m = new Menu("Menu");
         MenuItem m1 = new MenuItem("Create new transaction");
         MenuItem m2 = new MenuItem("Create account");
@@ -101,17 +101,21 @@ public class HomeController {
         MenuItem m6 = new MenuItem("Show Scheduled events");
         m.getItems().addAll(m1,m2,m3,m4,m5,m6);
 
-        m1.setOnAction(actionEvent -> switchScene("newTransaction"));
-        m2.setOnAction(actionEvent -> switchScene("createAccount"));
+        m1.setOnAction(actionEvent -> switchScene("/app/transaction/newTransaction/newTransaction.fxml"));
+        m2.setOnAction(actionEvent -> switchScene("/app/account/createAccount.fxml"));
+
         FXMLLoader change = new FXMLLoader( getClass().getResource("/app/account/updateAccount/updateAccount.fxml") );
+        Parent changeInstance = change.load();
+
         m3.setOnAction(actionEvent -> {
             UpdateAccount controller = change.getController();
             controller.loadAccounts();
-            switchScene("updateAccount");
+            borderPane.setCenter(changeInstance);
         });
-        m4.setOnAction(actionEvent -> switchScene("saldotak"));
-        m5.setOnAction(actionEvent -> switchScene("AddGiro"));
-        m6.setOnAction(actionEvent -> switchScene("ScheduledEvents"));
+
+        m4.setOnAction(actionEvent -> switchScene("/app/account/saldotak.fxml"));
+        m5.setOnAction(actionEvent -> switchScene("/app/account/AddGiro.fxml"));
+        m6.setOnAction(actionEvent -> switchScene("/app/account/ScheduledEvents.fxml"));
 
         MenuBar mb = new MenuBar();
         mb.getMenus().add(m);

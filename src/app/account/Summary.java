@@ -45,13 +45,11 @@ public class Summary {
         List<?> transactions = null;
         CallableStatement stmt = null;
         String personnummber = LoginController.getUser().getId();
-        System.out.println(personnummber);
         try {
             stmt = Database.getInstance().getConn().prepareCall("{call all_transactions(?,?)}");
             stmt.setString(1, personnummber);
             stmt.setInt(2, 5);
             transactions = new ObjectMapper<>(Transaction.class).map(stmt.executeQuery());
-            System.out.println(transactions.get(0));
         } catch (Exception e) {
         }
         addSpaces();
