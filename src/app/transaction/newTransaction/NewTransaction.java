@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -47,12 +49,24 @@ public class NewTransaction {
         Platform.runLater(() -> {
             String eventname = transactionType() + Instant.now().toEpochMilli();
             if (validateSaldotak(comboBox.getSelectionModel().getSelectedItem().toString(), Double.parseDouble(amount.getText()))) {
-                DB.scheduledTransaction(eventname,
-                        convertBoxToTime(),
-                        comboBox.getSelectionModel().getSelectedItem().toString(),
-                        accountOrGiro(),
-                        Double.parseDouble(amount.getText()),
-                        messageBox.getText());
+                if (autogiroCheckBox.isSelected()) {
+                    DB.scheduledTransaction(eventname,
+                            convertBoxToTime(),
+                            comboBox.getSelectionModel().getSelectedItem().toString(),
+                            accountOrGiro(),
+                            Double.parseDouble(amount.getText()),
+                            messageBox.getText());
+                } else {
+                    try {
+                        DB.newTransaction(eventname,
+                                comboBox.getSelectionModel().getSelectedItem().toString(),
+                               convertAccountNumber(),
+                                Double.parseDouble(amount.getText()),
+                                messageBox.getText());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
                 clearFields();
                 resultText(eventname);
             } else {
@@ -77,15 +91,10 @@ public class NewTransaction {
     private void resultText(String name) {
         if (DB.validateInsert(name, autogiroCheckBox.isSelected())) {
             result.setTextFill(Color.GREEN);
-            result.setText("NEW TRANSACTION MADE \n" +
-                    "From account: " + comboBox.getSelectionModel().getSelectedItem().toString() +
-                    "\nTo account: " + toAccount.getText() +
-                    "\nwith amount: " + amount.getText() +
-                    "\nwith message: " + messageBox.getText() +
-                    "\n" + datepicker.getValue());
+            result.setText("NEW TRANSACTION MADE");
         } else {
             result.setTextFill(Color.RED);
-            result.setText("Transaction failed");
+            result.setText("Transaction failed!");
         }
     }
 

@@ -47,7 +47,7 @@ public class HomeController {
             }
         });
         try {
-            DB.newTransaction(cardAccount.get(0), "33334444", 200, "Card Payment");
+            DB.newTransaction("Card transaction", cardAccount.get(0), "33334444", 200, "Card Payment");
         } catch (SQLException e) {
             System.out.println("You have no card account");
         }

@@ -41,7 +41,6 @@ public class ScheduledEventsController {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String result = (String) rs.getObject("EVENT_DEFINITION");
-                System.out.println(result);
                 Matcher m = eventData.matcher(result);
                 if (m.find()) {
                     LoginController.getUser().getAccountList().forEach(account -> {
@@ -54,12 +53,10 @@ public class ScheduledEventsController {
                         }
                     });
                 }
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     private void createBox(String name, String account, String created, String message, String interval, String field, String toAccount) {
@@ -74,7 +71,7 @@ public class ScheduledEventsController {
         }
         Label eventName = new Label("Name of event: " +message);
         Label eventCreated = new Label("Created: " + created);
-        Label onAccount = new Label("On account: " + account);
+        Label onAccount = new Label("From account: " + account);
         Label toAcc = new Label("To account: " + toAccount);
         Label intervalValue = new Label("Every " + interval + " " + field);
         Button removeEventButton = new Button("Remove");

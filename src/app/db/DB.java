@@ -101,11 +101,11 @@ public abstract class DB {
         }
     }
 
-    public static void newTransaction(String from, String to, float amount, String message) throws SQLException {
+    public static void newTransaction(String name, String from, String to, double amount, String message) throws SQLException {
         CallableStatement stmt = null;
         stmt = Database.getInstance().getConn().prepareCall("{call transaction(?,?,?,?,?)}");
-        stmt.setString(1, "transaction");
-        stmt.setFloat(2, amount);
+        stmt.setString(1, name);
+        stmt.setDouble(2, amount);
         stmt.setString(3, from);
         stmt.setString(4, to);
         stmt.setString(5, message);
